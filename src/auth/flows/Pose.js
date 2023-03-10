@@ -8,7 +8,10 @@ const Container = styled.div`
   margin-bottom: 8px;
   background-color: ${(props) => (props.isDragging ? "lightgreen" : "white")};
   display: flex;
+  flex-direction: column;
+  width: 120px;
 `;
+
 
 export const Pose = ({pose, index}) => {
     return (
@@ -20,7 +23,10 @@ export const Pose = ({pose, index}) => {
                 ref={provided.innerRef}
                 isDragging={snapshot.isDragging}
                 >
-                    {pose.english_name}
+                    <img src={pose.img_url} height={100} width={100} /><br />
+                    <h3>{pose.sanskrit_name}</h3><br />
+                    {pose.english_name}<br />
+                    <i>{pose.category}</i>
                 </Container>
             )}
         </Draggable>

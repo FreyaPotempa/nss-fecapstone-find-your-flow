@@ -7,7 +7,7 @@ const Container = styled.div`
 margin: 8px;
 border: 1px solid lightgrey;
 border-radius:2px;
-width: 220px;
+width: 100%;
 display: flex;
 flex-direction: column;
 min-height: 100px;`
@@ -17,17 +17,15 @@ padding: 8px;`
 
 const YogaList = styled.div`
 padding: 8px;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
 transition: background-color 0.2s ease;
   background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
-  flex-grow: 1;
   min-height: 100px;
 `
 
 export const Column = ({ column, yogaChoices }) => {
-
-    if (yogaChoices.length === 0) {
-        return ""
-    }
     return (
         <Container>
             <Title>{column.title}</Title>

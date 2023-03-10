@@ -14,12 +14,12 @@ export const FlowCreator = () => {
                 "column-1": {
                     id: "column-1",
                     title: "Pose Picker",
-                    poseInfo: []
+                    poseColumIdList: []
                 },
                 "column-2": {
                     id: "column-2",
                     title: "Flow Creator",
-                    poseInfo: []
+                    poseColumIdList: []
                 }
             },
             columnOrder: ["column-1", "column-2"]
@@ -38,11 +38,11 @@ export const FlowCreator = () => {
             let poseIdArray = []
             let yogaPoseList = {}
             poses.forEach((pose) => {
-                yogaPoseList[`pose--${pose.id}`] = pose
-                poseIdArray.push(`pose--${pose.id}`)})
+                yogaPoseList[String(pose.id)] = pose
+                poseIdArray.push(String(pose.id))})
                 // remove these state sets
 
-                newYogaDndState.columns["column-1"].poseInfo = poseIdArray
+                newYogaDndState.columns["column-1"].poseColumIdList = poseIdArray
                 newYogaDndState.yogaPoseData = yogaPoseList
                
                 
@@ -57,52 +57,81 @@ export const FlowCreator = () => {
     const Container = styled.div`
     display: flex`
 
-    // const onDragEnd = (result) => {
-    //     const {destination, source, draggableId } = result
+    const onDragEnd = (result) => {
+        const {destination, source, draggableId } = result
 
-    //     if (!destination) {
-    //         return ""
-    //     } else if (
-    //         destination.droppableId === source.droppableId && destination.index === source.index
-    //     ) {
-    //         return ""
-    //     }
-    //     const start = yogaDndState.columns[source.droppableId]
-    //     const finish = yogaDndState.columns[destination.droppableId]
+        if (!destination) {
+            return ""
+        } else if (
+            destination.droppableId === source.droppableId && destination.index === source.index
+        ) {
+            return ""
+        }
+        const startingColumn = yogaDndState.columns[source.droppableId]
+        const finishingColumn = yogaDndState.columns[destination.droppableId]
 
-    //     if (start === finish) {
-    //         const newPoseIds = Array.from(start.poseIds)
-    //         newPoseIds.splice(source.index, 1)
-    //         newPoseIds.splice(destination.index, 0, draggableId)
+        if (startingColumn === finishingColumn) {
+            const newPoseIds = Array.from(startingColumn.poseColumIdList)
+            newPoseIds.splice(source.index, 1)
+            newPoseIds.splice(destination.index, 0, draggableId)
 
-    //         const newColumn = {
-    //             ...start,
-    //             poseIds: newPoseIds
-    //         }
+            const newColumn = {
+                ...startingColumn,
+                poseColumIdList: newPoseIds
+            }
 
-    //         const newState = {
-    //             ...yogaDndState,
-    //             columns: {
-    //                 ...yogaDndState.columns,
-    //                 [newColumn.id]: newColumn
-    //             },
-    //         }
-    //         setYogaData(newState)
-    //         return
-    //     }
-    // }
+            const newState = {
+                ...yogaDndState,
+                columns: {
+                    ...yogaDndState.columns,
+                    [newColumn.id]: newColumn,
+                },
+            }
+            console.log("withinColumn", newState)
+            setYogaDndState(newState)
+            return
+        }
+
+        //moving between columns
+        const startPoseIds = Array.from(startingColumn.poseColumIdList)
+        startPoseIds.splice(source.index, 1)
+        const newStart = {
+            ...startingColumn,
+            poseColumIdList: startPoseIds
+        }
+
+        const finishPoseIds = Array.from(finishingColumn.poseColumIdList)
+        finishPoseIds.splice(destination.index, 0, draggableId)
+        const newFinish = {
+            ...finishingColumn,
+            poseColumIdList: finishPoseIds
+        }
+
+        const newState = {
+            ...yogaDndState,
+            columns: {
+                ...yogaDndState.columns,
+                [newStart.id]: newStart,
+                [newFinish.id]: newFinish
+            }
+        }
+        console.log("betweenColumns", newState)
+        setYogaDndState(newState)
+        
+        
+    }
     return (
         <section>
             <h2>Poses</h2>
             <DragDropContext
             //onDragStart={onDragStart}
-            //onDragEnd={onDragEnd}
+            onDragEnd={onDragEnd}
             >
                 <Container>
                     {yogaDndState.columnOrder.map((columnId) => {
                         const column = yogaDndState.columns
                         [columnId]
-                        const posesInThisColumn = column.poseInfo.map((poseId) => {
+                        const posesInThisColumn = column.poseColumIdList.map((poseId) => {
                            // console.log("poseId", poseId)
                             const thingToReturn = yogaDndState.yogaPoseData[poseId];
                            // console.log("thingToReturn", thingToReturn)
