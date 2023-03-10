@@ -29,7 +29,7 @@ export const Column = ({ column, yogaChoices }) => {
     return (
         <Container>
             <Title>{column.title}</Title>
-            <Droppable droppableId={column.id}>
+            <Droppable droppableId={column.id} direction="horizontal">
                 {(provided, snapshot) => (
                     <YogaList
                     ref={provided.innerRef}
