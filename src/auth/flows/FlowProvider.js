@@ -1,42 +1,76 @@
 import { createContext, useState } from "react";
 
-export const FlowContext = createContext()
+export const FlowContext = createContext();
 
 export const FlowProvider = (props) => {
-    const [poses, setPoses] = useState([])
-    const [users, setUsers ] = useState([])
-    const [flows, setFlows] = useState([])
-    const [ searchTerms, setSearchTerms] = useState("")
+  const [poses, setPoses] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [flows, setFlows] = useState([]);
+  const [searchTerms, setSearchTerms] = useState("");
 
-    const getPoses = () => {
-        return fetch(`http://localhost:8088/poses`)
-            .then(res => res.json())
-            .then(setPoses)
-    }
+  const getPoses = () => {
+    return fetch(`http://localhost:8088/poses`)
+      .then((res) => res.json())
+      .then(setPoses);
+  };
 
-    const getFlows = () => {
-        return fetch(`http://localhost:8088/flows`)
-            .then(res => res.json())
-            .then(setFlows)
-    }
+  const getUserById = (userId) => {
+    return fetch(`http://localhost:8088/users/${userId}`).then((res) =>
+      res.json()
+    );
+  };
 
-    const addFlow = (flowObj) => {
-        return fetch(`http://localhost:8088/flows`,{
-            method: 'POST', 
-            headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(flowObj)})
-        .then(res => res.json())
-        .then(getFlows)
-    }
+  const getUsers = () => {
+    return fetch(`http://localhost:8088/users`)
+      .then((res) => res.json())
+      .then(setUsers);
+  };
 
-    return (
-        <FlowContext.Provider
-        value={{
-            poses, getPoses, flows, getFlows, addFlow, searchTerms, setSearchTerms
-        }}>
-            {props.children}
-        </FlowContext.Provider>
-    )
-}
+  const updateUser = (user) => {
+    return fetch(`http://localhost:8088/users/${user.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    }).then(getUsers);
+  };
+
+  const getFlows = () => {
+    return fetch(`http://localhost:8088/flows`)
+      .then((res) => res.json())
+      .then(setFlows);
+  };
+
+  const addFlow = (flowObj) => {
+    return fetch(`http://localhost:8088/flows`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(flowObj),
+    })
+      .then((res) => res.json())
+      .then(getFlows);
+  };
+
+  return (
+    <FlowContext.Provider
+      value={{
+        poses,
+        getPoses,
+        flows,
+        getFlows,
+        getUsers,
+        updateUser,
+        getUserById,
+        addFlow,
+        searchTerms,
+        setSearchTerms,
+        users,
+      }}
+    >
+      {props.children}
+    </FlowContext.Provider>
+  );
+};

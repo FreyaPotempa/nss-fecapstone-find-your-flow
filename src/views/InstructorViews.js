@@ -1,4 +1,5 @@
 import { Outlet, Route, Routes } from "react-router-dom"
+import { FlowCreator } from "../auth/flows/FlowCreator"
 import { FlowProvider } from "../auth/flows/FlowProvider"
 
 
@@ -16,7 +17,7 @@ export const InstructorViews = () => {
                     </>
                 }
                 >
-
+                <Route path="/flow/create" element={<FlowCreator />} />
                 </Route>
         </Routes>
         </FlowProvider>

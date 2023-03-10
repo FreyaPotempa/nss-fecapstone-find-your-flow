@@ -15,6 +15,11 @@ export const UserNav = () => {
           Saved Flows
         </Link>
       </li>
+      <li className="navbar__item active">
+        <Link className="navbar__link" to="/profile">
+          My Profile
+        </Link>
+      </li>
       {localStorage.getItem("yoga_user") ? (
         <li className="navbar__item navbar_logout">
           <Link

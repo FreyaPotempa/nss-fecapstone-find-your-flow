@@ -9,10 +9,20 @@ export const InstructorNav = () => {
         <Link className="navbar_link" to="/">
           Home
         </Link>
+        </li>
+        <li className="navbar__item active">
+        <Link className="navbar_link" to="/flow/create">
+          Create Flow
+        </Link>
       </li>
       <li className="navbar__item active">
         <Link className="navbar__link" to="/saved">
           Saved Flows
+        </Link>
+      </li>
+      <li className="navbar__item active">
+        <Link className="navbar__link" to="/profile">
+          My Profile
         </Link>
       </li>
       {localStorage.getItem("yoga_user") ? (
