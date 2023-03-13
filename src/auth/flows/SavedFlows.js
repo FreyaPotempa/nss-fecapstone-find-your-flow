@@ -1,39 +1,41 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FlowContext } from "./FlowProvider";
+import { useContext, useEffect } from "react"
+import { Link } from "react-router-dom";
+import { FlowContext } from "./FlowProvider"
+
 
 export const SavedFlows = () => {
-  const { flows, getFlows } = useContext(FlowContext);
-  const [filterdFlows, setFilteredFlows] = useState([]);
+    const { getFavesByUser, favesByUser, getUsers, users } = useContext(FlowContext)
+    
+    const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
 
-  const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
+    useEffect(() => {
+        getFavesByUser(localYogaUserObj.id)
+        .then(getUsers())
+    },[])
 
-  useEffect(() => {
-    getFlows();
-  }, []);
+    const matchFlowtoCreator = (flow) => {
+        const flowCreator = users?.find(user => user.id === flow.userId)
+        return flowCreator.name
+    }
 
-  useEffect(() => {
-    const myFlows = flows.filter((flow) => flow.userId === localYogaUserObj.id);
-    setFilteredFlows(myFlows);
-  }, [flows]);
-
-  return (
-    <>
-      <section>
-        <h2>My Flows</h2>
-        {filterdFlows.map((flow) => (
-          <>
-            <div key={`flowList-${flow.id}`}>
-              <Link to={`/flow/detail/${flow.id}`}>
-                Title: {flow.title}
+    return (
+        <>
+        <h2>My Favorite Flows</h2>
+        {favesByUser.map((fave) => {
+           return <> 
+            <div key={`flowfave-${fave?.id}`}>
+                <Link to={`/flow/detail/${fave?.flow?.id}`}>
+                    {fave?.flow?.title}
+                </Link>
                 <br />
-                Difficulty: {flow.difficulty}
-                <br />
-              </Link>
+                Difficulty: {fave?.flow?.difficulty}/5 <br />
+                Created by: {matchFlowtoCreator(fave?.flow)}
+
             </div>
-          </>
-        ))}
-      </section>
-    </>
-  );
-};
+            </>
+        })}
+        </>
+    )
+
+
+}

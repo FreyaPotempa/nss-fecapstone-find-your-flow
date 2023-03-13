@@ -3,13 +3,13 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { FlowContext } from "./FlowProvider";
 import styled from "styled-components";
 import { Column } from "./Column";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // define an absolutely empty "initialData" object here
 
 
 export const FlowCreator = () => {
-  const { poses, getPoses, addFlow } = useContext(FlowContext);
+  const { poses, getPoses, addFlow, getFlowById, flow } = useContext(FlowContext);
   const [yogaDndState, setYogaDndState] = useState({
     yogaPoseData: {},
     columns: {
@@ -31,7 +31,7 @@ export const FlowCreator = () => {
     title: "",
     difficulty: 0
   })
-
+  const { flowId } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -53,6 +53,13 @@ export const FlowCreator = () => {
 
       newYogaDndState.columns["column-1"].poseColumIdList = poseIdArray;
       newYogaDndState.yogaPoseData = yogaPoseList;
+
+      // if (flowId) {
+      //   getFlowById(flowId)
+      //   const editFlowColumn = {...flow}
+
+        // newYogaDndState.columns["column-2"].poseColumIdList = 
+//      }
 
       setYogaDndState(newYogaDndState);
       // set newData into state with setYogaDndState(newData)

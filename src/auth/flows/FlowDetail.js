@@ -23,7 +23,7 @@ min-height: 100px;
 
 export const FlowDetail = () => {
     const navigate = useNavigate()
-    const { getFlowById, poses, getPoses, flow, deleteFlow } = useContext(FlowContext)
+    const { getFlowById, poses, getPoses, flow, deleteFlow, addFave } = useContext(FlowContext)
     const { flowId } = useParams()
     const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"))
 
@@ -36,6 +36,16 @@ export const FlowDetail = () => {
         deleteFlow(flowId).then(() => {
             navigate("/flow/saved")
         })
+    }
+
+    const favoriteFlow = (e) => {
+        const newFave = {
+            userId: localYogaUserObj.id,
+            flowId: flowId,
+        }
+
+        addFave(newFave)
+        .then(navigate("/flow/saved"))
     }
 
     return <>
@@ -56,6 +66,7 @@ export const FlowDetail = () => {
             })
         }
             </FlowList>
+            <button type="button" onClick={favoriteFlow}>Save this flow</button>
         {
         flow?.userId === localYogaUserObj.id ?
         <> 

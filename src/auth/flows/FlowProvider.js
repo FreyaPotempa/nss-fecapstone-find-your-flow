@@ -8,6 +8,7 @@ export const FlowProvider = (props) => {
   const [flows, setFlows] = useState([]);
   const [flow, setFlow] = useState({})
   const [searchTerms, setSearchTerms] = useState("");
+  const [ favesByUser , setFavesByUser ] = useState([])
 
   const getPoses = () => {
     return fetch(`http://localhost:8088/poses`)
@@ -20,6 +21,14 @@ export const FlowProvider = (props) => {
       res.json()
     );
   };
+
+  const getFavesByUser = (userId) => {
+    return fetch(`http://localhost:8088/userFaves?_expand=flow&userId=${userId}`)
+      .then(res => res.json())
+      .then(setFavesByUser)
+
+  }
+
 
   const getUsers = () => {
     return fetch(`http://localhost:8088/users`)
@@ -38,13 +47,13 @@ export const FlowProvider = (props) => {
   };
 
   const getFlows = () => {
-    return fetch(`http://localhost:8088/flows`)
+    return fetch(`http://localhost:8088/flows?_expand=user`)
       .then((res) => res.json())
       .then(setFlows);
   };
 
   const getFlowById = (flowId) => {
-    return fetch(`http://localhost:8088/flows/${flowId}`)
+    return fetch(`http://localhost:8088/flows/${flowId}?_expand=user`)
       .then(res => res.json())
       .then(setFlow)
 
@@ -68,13 +77,27 @@ export const FlowProvider = (props) => {
       .then(getFlows);
   };
 
+  const addFave = (faveObj) => {
+    return fetch(`http://localhost:8088/userFaves`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(faveObj),
+    })
+    .then((res) => res.json())
+  }
+
   return (
     <FlowContext.Provider
       value={{
+        addFave,
         poses,
         getPoses,
         flow,
         flows,
+        favesByUser,
+        getFavesByUser,
         getFlows,
         deleteFlow,
         getFlowById,
