@@ -11,7 +11,7 @@ export const UserNav = () => {
         </Link>
       </li>
       <li className="navbar__item active">
-        <Link className="navbar__link" to="/saved">
+        <Link className="navbar__link" to="/flow/saved">
           Saved Flows
         </Link>
       </li>

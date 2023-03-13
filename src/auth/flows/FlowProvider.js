@@ -6,6 +6,7 @@ export const FlowProvider = (props) => {
   const [poses, setPoses] = useState([]);
   const [users, setUsers] = useState([]);
   const [flows, setFlows] = useState([]);
+  const [flow, setFlow] = useState({})
   const [searchTerms, setSearchTerms] = useState("");
 
   const getPoses = () => {
@@ -42,6 +43,19 @@ export const FlowProvider = (props) => {
       .then(setFlows);
   };
 
+  const getFlowById = (flowId) => {
+    return fetch(`http://localhost:8088/flows/${flowId}`)
+      .then(res => res.json())
+      .then(setFlow)
+
+  }
+
+  const deleteFlow = (flowId) => {
+    return fetch(`http://localhost:8088/flows/${flowId}`, {
+      method: "DELETE",
+    }).then(getFlows)
+  }
+
   const addFlow = (flowObj) => {
     return fetch(`http://localhost:8088/flows`, {
       method: "POST",
@@ -59,12 +73,16 @@ export const FlowProvider = (props) => {
       value={{
         poses,
         getPoses,
+        flow,
         flows,
         getFlows,
+        deleteFlow,
+        getFlowById,
         getUsers,
         updateUser,
         getUserById,
         addFlow,
+        setFlow,
         searchTerms,
         setSearchTerms,
         users,

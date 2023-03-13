@@ -3,13 +3,13 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { FlowContext } from "./FlowProvider";
 import styled from "styled-components";
 import { Column } from "./Column";
+import { useNavigate } from "react-router-dom";
 
 // define an absolutely empty "initialData" object here
 
 
 export const FlowCreator = () => {
   const { poses, getPoses, addFlow } = useContext(FlowContext);
-  const [flowTitle, setFlowTitle] = useState("")
   const [yogaDndState, setYogaDndState] = useState({
     yogaPoseData: {},
     columns: {
@@ -27,6 +27,12 @@ export const FlowCreator = () => {
     columnOrder: ["column-1", "column-2"],
   });
 
+  const [flowCreate, update] = useState({
+    title: "",
+    difficulty: 0
+  })
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     getPoses();
@@ -136,23 +142,20 @@ export const FlowCreator = () => {
     setYogaDndState(newState)
     }
 
-    const handleInput = (event) => {
-        const newTitle = event.target.value
-        setFlowTitle(newTitle)
-    }
-
     const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"))
 
     const handleClickSaveFlow = (e) => {
 
         const newFlow = {...yogaDndState.columns["column-2"],
         userId: localYogaUserObj.id,
-        title: flowTitle,
+        title: flowCreate.title,
+        difficulty: flowCreate.difficulty,
         id: ""
         
     }
-        console.log("flowToSave", newFlow)
         addFlow(newFlow)
+        .then(navigate("/flow/saved"))
+        
     }
   
   return (
@@ -191,10 +194,39 @@ export const FlowCreator = () => {
                 type="text"
                 id="title"
                 name="title"
+                value={flowCreate.title}
                 required
                 autoFocus
-                onChange={handleInput}></input>
+                onChange={
+                  (e) => {
+                    const copy = {...flowCreate}
+                    copy.title = e.target.value
+                    update(copy)
+                  }
+                }></input>
             </div>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="difficulty">Difficulty</label>
+          <select
+          required autoFocus
+          type="type"
+          value={flowCreate.difficulty}
+          onChange={
+            (e) => {
+              const num = {...flowCreate}
+              num.difficulty = parseInt(e.target.value)
+              update(num)
+            }
+          }
+          >
+            <option value="0">Choose</option>
+            <option value="1">Novice</option>
+            <option value="2">Beginner</option>
+            <option value="3">Intermediate</option>
+            <option value="4">Proficient</option>
+            <option value="5">Advanced</option>
+          </select>
         </fieldset>
       <button type="button"
       onClick={handleClickSaveFlow}>Save Flow</button>

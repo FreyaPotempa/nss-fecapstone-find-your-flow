@@ -1,6 +1,8 @@
 import { Outlet, Route, Routes } from "react-router-dom"
 import { FlowCreator } from "../auth/flows/FlowCreator"
+import { FlowDetail } from "../auth/flows/FlowDetail"
 import { FlowProvider } from "../auth/flows/FlowProvider"
+import { SavedFlows } from "../auth/flows/SavedFlows"
 
 
 export const InstructorViews = () => {
@@ -18,6 +20,8 @@ export const InstructorViews = () => {
                 }
                 >
                 <Route path="/flow/create" element={<FlowCreator />} />
+                <Route path="/flow/saved" element={<SavedFlows />} />
+                <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
                 </Route>
         </Routes>
         </FlowProvider>
