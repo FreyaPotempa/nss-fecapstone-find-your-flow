@@ -22,7 +22,7 @@ export const InstructorViews = () => {
                 </>
                 } />
                 <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
-                <Route path="/flow/edit/:flowId" element={<FlowEdit />} />
+                <Route path="/flow/edit/:flowId" element={<FlowCreator />} />
                 </Route>
         </Routes>
         </FlowProvider>

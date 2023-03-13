@@ -11,7 +11,7 @@ export const UserViews = () => {
         <Route path="/" element={<Outlet />}>
           <Route path="/" element={<Home />} />
           <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
-          <Route path="/saved" element={<SavedFlows />} />
+          <Route path="/flow/saved" element={<SavedFlows />} />
         </Route>
       </Routes>
     </FlowProvider>

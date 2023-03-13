@@ -16,12 +16,12 @@ export const FlowCreator = () => {
       "column-1": {
         id: "column-1",
         title: "Pose Picker",
-        poseColumIdList: [],
+        poseColumnIdList: [],
       },
       "column-2": {
         id: "column-2",
         title: "Flow Creator",
-        poseColumIdList: [],
+        poseColumnIdList: [],
       },
     },
     columnOrder: ["column-1", "column-2"],
@@ -36,6 +36,10 @@ export const FlowCreator = () => {
 
   useEffect(() => {
     getPoses();
+    if (flowId) {
+      getFlowById(flowId)
+      //when navigating for edit
+    }
   }, []);
 
   useEffect(() => {
@@ -51,20 +55,24 @@ export const FlowCreator = () => {
         poseIdArray.push(String(pose.id));
       });
 
-      newYogaDndState.columns["column-1"].poseColumIdList = poseIdArray;
+      newYogaDndState.columns["column-1"].poseColumnIdList = poseIdArray;
       newYogaDndState.yogaPoseData = yogaPoseList;
-
-      // if (flowId) {
-      //   getFlowById(flowId)
-      //   const editFlowColumn = {...flow}
-
-        // newYogaDndState.columns["column-2"].poseColumIdList = 
-//      }
 
       setYogaDndState(newYogaDndState);
       // set newData into state with setYogaDndState(newData)
     }
   }, [poses]);
+
+  useEffect(() => {
+    if (flow.title) {
+      const editYogaDndState = {...yogaDndState}
+      editYogaDndState.columns["column-2"].title = flow.title
+      editYogaDndState.columns["column-2"].poseColumnIdList = flow.poseColumnIdList
+
+      //filter the array of poses in column 1 so that there are no duplicates in column 2
+      setYogaDndState(editYogaDndState)
+     }
+  },[flow])
 
   const Container = styled.div`
     display: flex;
@@ -85,13 +93,13 @@ export const FlowCreator = () => {
     const finishingColumn = yogaDndState.columns[destination.droppableId];
 
     if (startingColumn === finishingColumn) {
-      const newPoseIds = Array.from(startingColumn.poseColumIdList);
+      const newPoseIds = Array.from(startingColumn.poseColumnIdList);
       newPoseIds.splice(source.index, 1);
       newPoseIds.splice(destination.index, 0, draggableId);
 
       const newColumn = {
         ...startingColumn,
-        poseColumIdList: newPoseIds,
+        poseColumnIdList: newPoseIds,
       };
 
       const newState = {
@@ -106,18 +114,18 @@ export const FlowCreator = () => {
     }
 
     //moving between columns
-    const startPoseIds = Array.from(startingColumn.poseColumIdList);
+    const startPoseIds = Array.from(startingColumn.poseColumnIdList);
     startPoseIds.splice(source.index, 1);
     const newStart = {
       ...startingColumn,
-      poseColumIdList: startPoseIds,
+      poseColumnIdList: startPoseIds,
     };
 
-    const finishPoseIds = Array.from(finishingColumn.poseColumIdList);
+    const finishPoseIds = Array.from(finishingColumn.poseColumnIdList);
     finishPoseIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finishingColumn,
-      poseColumIdList: finishPoseIds,
+      poseColumnIdList: finishPoseIds,
     };
 
     //This creates two children with the same key, plus you cannot add a pose again.
@@ -174,8 +182,9 @@ export const FlowCreator = () => {
       >
         <Container>
           {yogaDndState.columnOrder.map((columnId) => {
+            console.log("columns", yogaDndState.columns)
             const column = yogaDndState.columns[columnId];
-            const posesInThisColumn = column.poseColumIdList.map((poseId) => {
+            const posesInThisColumn = column.poseColumnIdList.map((poseId) => {
               // console.log("poseId", poseId)
               const thingToReturn = yogaDndState.yogaPoseData[poseId];
               // console.log("thingToReturn", thingToReturn)
@@ -236,7 +245,9 @@ export const FlowCreator = () => {
           </select>
         </fieldset>
       <button type="button"
-      onClick={handleClickSaveFlow}>Save Flow</button>
+      onClick={
+        //if flowId is updating make a post request otherwise save
+        handleClickSaveFlow}>Save Flow</button>
       </form>
     </section>
   );

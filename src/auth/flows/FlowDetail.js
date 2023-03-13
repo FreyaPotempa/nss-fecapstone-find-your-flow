@@ -38,6 +38,10 @@ export const FlowDetail = () => {
         })
     }
 
+    const handleEdit = () => {
+        navigate(`/flow/edit/${flowId}`)
+    }
+
     const favoriteFlow = (e) => {
         const newFave = {
             userId: localYogaUserObj.id,
@@ -54,7 +58,7 @@ export const FlowDetail = () => {
         <div>Difficulty: {flow?.difficulty}/5</div>
         <FlowList>
         {
-            flow?.poseColumIdList?.map((poseId) => {
+            flow?.poseColumnIdList?.map((poseId) => {
                 const poseObj = poses.find((pose) => pose.id === parseInt(poseId))
                 return <Container>
                 <div key={`pose__${poseObj?.id}`}>
@@ -70,7 +74,7 @@ export const FlowDetail = () => {
         {
         flow?.userId === localYogaUserObj.id ?
         <> 
-        <button type="button">edit</button>
+        <button type="button" onClick={handleEdit}>edit</button>
         <button type="button" onClick={handleDelete}>delete</button>
         </>
         :
