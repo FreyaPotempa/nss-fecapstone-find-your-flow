@@ -18,12 +18,10 @@ export const CreatedFlows = () => {
   }, [flows]);
 
   return (
-    <>
       <section>
         <h2>My Created Flows</h2>
         {filterdFlows.map((flow) => (
-          <>
-            <div key={`flowList-${flow.id}`}>
+          <div key={`flowList-${flow.id}`}>
               <Link to={`/flow/detail/${flow.id}`}>
                 {flow.title}
                 <br />
@@ -31,9 +29,7 @@ export const CreatedFlows = () => {
                 Difficulty: {flow.difficulty}/5
                 <br />
             </div>
-          </>
         ))}
       </section>
-    </>
   );
 };

@@ -23,13 +23,14 @@ min-height: 100px;
 
 export const FlowDetail = () => {
     const navigate = useNavigate()
-    const { getFlowById, poses, getPoses, flow, deleteFlow, addFave } = useContext(FlowContext)
+    const { getFlowById, poses, getPoses, flow, deleteFlow, addFave, getFavesByUser, favesByUser, deleteFave } = useContext(FlowContext)
     const { flowId } = useParams()
     const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"))
 
     useEffect(() => {
         getFlowById(flowId)
         getPoses()
+        getFavesByUser(localYogaUserObj.id)
     },[])
 
     const handleDelete = () => {
@@ -52,6 +53,12 @@ export const FlowDetail = () => {
         .then(navigate("/flow/saved"))
     }
 
+    const deleteFaveFlow = (e) => {
+        const userFaveObj = favesByUser.find((fave) => fave.flowId === flow.id)
+        deleteFave(userFaveObj.id)
+        .then(navigate("/"))
+    }
+
     return <>
     <section key={`flow__${flow.id}`}>
         <h2>{flow?.title}</h2>
@@ -70,8 +77,12 @@ export const FlowDetail = () => {
             })
         }
             </FlowList>
+            {
+                favesByUser.find((fave) => fave.flowId === flow.id) ? <button type="button"onClick={deleteFaveFlow}>Delete from Favorites</button> :
+            
             <button type="button" onClick={favoriteFlow}>Save this flow</button>
-        {
+            }
+            {
         flow?.userId === localYogaUserObj.id ?
         <> 
         <button type="button" onClick={handleEdit}>edit</button>

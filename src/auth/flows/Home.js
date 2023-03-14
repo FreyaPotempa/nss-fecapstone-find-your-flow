@@ -18,15 +18,13 @@ export const Home = () => {
     <h2>All Created Flows</h2>
     <section>
     {flows.map((flow) => {
-        return <>
-        <div key={`Flows-${flow.id}`}>
+        return <div key={`Flows-${flow.id}`}>
             <Link to={`/flow/detail/${flow.id}`}>
                 {flow.title}<br />
             </Link>
                 Difficulty: {flow.difficulty}/5<br />
                 Created by: {flow?.user?.name}
         </div>
-        </>
     })
     }
     </section>
