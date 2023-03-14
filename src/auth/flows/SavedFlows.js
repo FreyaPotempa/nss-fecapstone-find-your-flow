@@ -22,8 +22,7 @@ export const SavedFlows = () => {
         <>
         <h2>My Favorite Flows</h2>
         {favesByUser.map((fave) => {
-           return <> 
-            <div key={`flowfave-${fave?.id}`}>
+           return <div key={`flowfave-${fave?.id}`}>
                 <Link to={`/flow/detail/${fave?.flow?.id}`}>
                     {fave?.flow?.title}
                 </Link>
@@ -32,7 +31,6 @@ export const SavedFlows = () => {
                 Created by: {matchFlowtoCreator(fave?.flow)}
 
             </div>
-            </>
         })}
         </>
     )

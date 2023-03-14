@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 export const FlowCreator = () => {
-  const { poses, getPoses, addFlow, getFlowById, flow } = useContext(FlowContext);
+  const { poses, getPoses, addFlow, getFlowById, flow, updateFlow } = useContext(FlowContext);
   const [yogaDndState, setYogaDndState] = useState({
     yogaPoseData: {},
     columns: {
@@ -17,11 +17,13 @@ export const FlowCreator = () => {
         id: "column-1",
         title: "Pose Picker",
         poseColumnIdList: [],
+        difficulty: 0
       },
       "column-2": {
         id: "column-2",
         title: "Flow Creator",
         poseColumnIdList: [],
+        difficulty: 0
       },
     },
     columnOrder: ["column-1", "column-2"],
@@ -40,14 +42,18 @@ export const FlowCreator = () => {
       getFlowById(flowId)
       //when navigating for edit
     }
-  }, []);
+  }, [flowId]);
 
   useEffect(() => {
-    if (poses.length > 0) {
+    if (
+      // poses are loading
+      poses.length > 0 && 
+      // flow to edit is loading
+      (!flowId || (flowId && flow.title))
+    ) {
       // make a copy of the "yogaDndState" (initialData) state:
       const newYogaDndState = { ...yogaDndState };
-      // then use what you have below to fill this copy with the data you retrieved
-      // (rather than putting that into separate states)
+      // then use that to fill the copy with the data you retrieved
       let poseIdArray = [];
       let yogaPoseList = {};
       poses.forEach((pose) => {
@@ -57,22 +63,23 @@ export const FlowCreator = () => {
 
       newYogaDndState.columns["column-1"].poseColumnIdList = poseIdArray;
       newYogaDndState.yogaPoseData = yogaPoseList;
+      
+      // when editing, add previously saved info to state
+      if (flowId && flow.title) {
+        newYogaDndState.columns["column-2"].title = flow.title
+        newYogaDndState.columns["column-2"].poseColumnIdList = flow.poseColumnIdList
+        newYogaDndState.columns["column-2"].difficulty = flow.difficulty
+      } else {
+        // clearing state when navigating directly from "edit" to "create"
+        newYogaDndState.columns["column-2"].title = "Flow Creator";
+        newYogaDndState.columns["column-2"].poseColumnIdList = [];
+        newYogaDndState.columns["column-2"].difficulty = 0;
+      }
 
       setYogaDndState(newYogaDndState);
       // set newData into state with setYogaDndState(newData)
     }
-  }, [poses]);
-
-  useEffect(() => {
-    if (flow.title) {
-      const editYogaDndState = {...yogaDndState}
-      editYogaDndState.columns["column-2"].title = flow.title
-      editYogaDndState.columns["column-2"].poseColumnIdList = flow.poseColumnIdList
-
-      //filter the array of poses in column 1 so that there are no duplicates in column 2
-      setYogaDndState(editYogaDndState)
-     }
-  },[flow])
+  }, [poses, flow, flowId]);
 
   const Container = styled.div`
     display: flex;
@@ -160,19 +167,41 @@ export const FlowCreator = () => {
     const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"))
 
     const handleClickSaveFlow = (e) => {
-
+      const difficulty = parseInt(flowCreate.difficulty)
+      const flowTitle = flowCreate.title
+      if (difficulty === 0 || flowTitle.length < 0) {
+        window.alert("Please enter a title and difficulty level")
+      } else {
+        if (flowId) {
+          const updatedPoses = yogaDndState.columns["column-2"].poseColumnIdList
+          updateFlow({
+            //PUT
+            userId: localYogaUserObj.id,
+            id: flowId,
+            title: flowCreate.title,
+            difficulty: flowCreate.difficulty,
+            poseColumnIdList: updatedPoses
+          }).then(() => navigate("/flow/saved"))
+        } else {
+          //POST
         const newFlow = {...yogaDndState.columns["column-2"],
         userId: localYogaUserObj.id,
         title: flowCreate.title,
         difficulty: flowCreate.difficulty,
         id: ""
-        
-    }
+        }
         addFlow(newFlow)
         .then(navigate("/flow/saved"))
-        
+      }
     }
-  
+  }
+
+  const isLoadingYogaPoses = Object.keys(yogaDndState.yogaPoseData).length === 0 
+
+  if (isLoadingYogaPoses) {
+    return null
+  }
+
   return (
     <section>
       <h2>Poses</h2>
@@ -182,10 +211,8 @@ export const FlowCreator = () => {
       >
         <Container>
           {yogaDndState.columnOrder.map((columnId) => {
-            console.log("columns", yogaDndState.columns)
             const column = yogaDndState.columns[columnId];
             const posesInThisColumn = column.poseColumnIdList.map((poseId) => {
-              // console.log("poseId", poseId)
               const thingToReturn = yogaDndState.yogaPoseData[poseId];
               // console.log("thingToReturn", thingToReturn)
               // dealing with undefined in map, so examine each part. Ultimately I had [] around poseIds so it created a nested array,
@@ -211,6 +238,7 @@ export const FlowCreator = () => {
                 id="title"
                 name="title"
                 value={flowCreate.title}
+                defaultValue={flow?.title}
                 required
                 autoFocus
                 onChange={
@@ -251,4 +279,5 @@ export const FlowCreator = () => {
       </form>
     </section>
   );
+      
 };

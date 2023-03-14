@@ -59,6 +59,16 @@ export const FlowProvider = (props) => {
 
   }
 
+  const updateFlow = (flow) => {
+    return fetch(`http://localhost:8088/flows/${flow.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(flow),
+    }).then(getFlows)
+  }
+
   const deleteFlow = (flowId) => {
     return fetch(`http://localhost:8088/flows/${flowId}`, {
       method: "DELETE",
@@ -88,6 +98,13 @@ export const FlowProvider = (props) => {
     .then((res) => res.json())
   }
 
+  const deleteFave = (faveId) => {
+    return fetch(`http://localhost:8088/userFaves/${faveId}`, {
+      method: "DELETE",
+    })
+    //.then(getFaves)
+  }
+
   return (
     <FlowContext.Provider
       value={{
@@ -99,6 +116,7 @@ export const FlowProvider = (props) => {
         favesByUser,
         getFavesByUser,
         getFlows,
+        deleteFave,
         deleteFlow,
         getFlowById,
         getUsers,
@@ -108,6 +126,7 @@ export const FlowProvider = (props) => {
         setFlow,
         searchTerms,
         setSearchTerms,
+        updateFlow,
         users,
       }}
     >
