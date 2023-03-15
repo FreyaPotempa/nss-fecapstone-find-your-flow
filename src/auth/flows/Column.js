@@ -29,6 +29,7 @@ export const Column = ({ column, yogaChoices }) => {
     return (
         <Container>
             <Title>{column.title}</Title>
+            {/* SEARCH BAR */}
             <Droppable droppableId={column.id} direction="horizontal">
                 {(provided, snapshot) => (
                     <YogaList
