@@ -56,7 +56,7 @@ export const FlowDetail = () => {
     const deleteFaveFlow = (e) => {
         const userFaveObj = favesByUser.find((fave) => fave.flowId === flow.id)
         deleteFave(userFaveObj.id)
-        .then(navigate("/"))
+        .then(navigate("/flow/saved"))
     }
 
     return <>
