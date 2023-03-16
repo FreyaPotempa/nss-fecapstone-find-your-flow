@@ -4,11 +4,13 @@ export const FlowContext = createContext();
 
 export const FlowProvider = (props) => {
   const [poses, setPoses] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([])
+  const [user, setUser ] = useState({});
   const [flows, setFlows] = useState([]);
   const [flow, setFlow] = useState({})
   const [searchTerms, setSearchTerms] = useState("");
   const [ favesByUser , setFavesByUser ] = useState([])
+  const [ userProgress, setUserProgress ] = useState([])
 
   const getPoses = () => {
     return fetch(`http://localhost:8088/poses`)
@@ -17,9 +19,9 @@ export const FlowProvider = (props) => {
   };
 
   const getUserById = (userId) => {
-    return fetch(`http://localhost:8088/users/${userId}`).then((res) =>
-      res.json()
-    );
+    return fetch(`http://localhost:8088/users/${userId}`)
+    .then((res) => res.json())
+    .then(setUser);
   };
 
   const getFavesByUser = (userId) => {
@@ -105,10 +107,27 @@ export const FlowProvider = (props) => {
     //.then(getFaves)
   }
 
+  const addProgress = (newProg) => {
+    return fetch(`http://localhost:8088/userProgress`,{
+      method: 'POST', 
+      headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newProg)})
+    .then(res => res.json())
+  }
+
+  const getUserProgress = (userId) => {
+    return fetch(`http://localhost:8088/userProgress?_userId=${userId}`)
+      .then(res => res.json())
+      .then(setUserProgress)
+  }
+
   return (
     <FlowContext.Provider
       value={{
         addFave,
+        addProgress,
         poses,
         getPoses,
         flow,
@@ -122,11 +141,14 @@ export const FlowProvider = (props) => {
         getUsers,
         updateUser,
         getUserById,
+        getUserProgress,
+        userProgress,
         addFlow,
         setFlow,
         searchTerms,
         setSearchTerms,
         updateFlow,
+        user,
         users,
       }}
     >

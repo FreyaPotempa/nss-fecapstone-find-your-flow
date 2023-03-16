@@ -30,7 +30,7 @@ const YogaList = styled.div`
 export const PoseList = () => {
   const { poses, getPoses, searchTerms } = useContext(FlowContext)
   const [filteredPoses, setFilteredPoses ] = useState([])
-  const [cat, setCategory] = useState("");
+  const [cat, setCategory] = useState("0");
   const [showPeak, setShowPeak] = useState(false)
 
   useEffect(() => {
@@ -42,6 +42,8 @@ export const PoseList = () => {
         if (searchTerms !== "") {
             const subset = poses.filter((pose) => pose.english_name.toLowerCase().includes(searchTerms))
             setFilteredPoses(subset)
+            setShowPeak(false)
+            setCategory("0")
         } else {
             setFilteredPoses(poses)
         }
@@ -52,16 +54,17 @@ export const PoseList = () => {
     if (cat) {
        const filteredCat = poses.filter(poseByCat => poseByCat.category === cat)
         setFilteredPoses(filteredCat)
+        setShowPeak(false)
     }
     if (cat === "0") {
         setFilteredPoses(poses)
     }
   },[cat])
 
-  //These states don't know about each other so need to clear the others if one thing is picked
   useEffect(() => {
     if (showPeak) {
     const filteredPeak = poses.filter(peakPose => peakPose.peak)
+    setCategory("")
     setFilteredPoses(filteredPeak)
     }
     else {
@@ -84,8 +87,12 @@ export const PoseList = () => {
 
   return (
     <>
-        <select id="category" onChange={handleCategory}>
-            <option key="" value="0">Sort by Category</option>
+        <select id="category" 
+        onChange={handleCategory}>
+            <option key="" value="0"
+            selected={
+              showPeak || cat === "0"
+              }>Sort by Category</option>
             <option value="standing">Standing</option>
             <option value="seated">Seated</option>
             <option value="supine">Supine</option>
@@ -94,6 +101,7 @@ export const PoseList = () => {
         </select>
         Show Only Peak Poses?
         <input type="checkbox" 
+        checked={showPeak}
         onClick={handlePeak} 
         />
     <Container>
