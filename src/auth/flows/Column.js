@@ -29,7 +29,6 @@ export const Column = ({ column, yogaChoices }) => {
     return (
         <Container>
             <Title>{column.title}</Title>
-            {/* SEARCH BAR */}
             <Droppable droppableId={column.id} direction="horizontal">
                 {(provided, snapshot) => (
                     <YogaList
@@ -38,7 +37,7 @@ export const Column = ({ column, yogaChoices }) => {
                     isDraggingOver={snapshot.isDraggingOver}
                     >
                         {yogaChoices.map((pose, index) => (
-                            <Pose key={pose.id} pose={pose} index={index} />
+                            <Pose Posekey={pose.id} pose={pose} index={index} />
                         ))}
                         {provided.placeholder}
                     </YogaList>

@@ -10,9 +10,8 @@ const Container = styled.div`
   width: 120px;
 `;
 
-export const PoseStatic = ({ pose, key }) => {
-  return (
-    <Container key={key}>
+export const PoseStatic = ({ pose }) => {
+  return <Container>
       <img src={pose.img_url} height={100} width={100} />
       <br />
       <h3>{pose.sanskrit_name}</h3>
@@ -21,5 +20,5 @@ export const PoseStatic = ({ pose, key }) => {
       <br />
       <i>{pose.category}</i>
     </Container>
-  );
+  
 };

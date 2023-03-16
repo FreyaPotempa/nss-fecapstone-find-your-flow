@@ -96,11 +96,13 @@ export const FlowDetail = () => {
             })
         }
             </FlowList>
-            <div>
+           { localYogaUserObj.instructor ? null :
+           <>
                 <label>I completed this flow on:</label>
                 <input type="date" onChange={handleDate} />
                 <button type="button" onClick={saveProgress}>Mark Completed</button>
-                </div>
+                </>
+            }
             {
                 favesByUser.find((fave) => fave.flowId === flow.id) ? <button type="button"onClick={deleteFaveFlow}>Remove from Favorites</button> :
             
