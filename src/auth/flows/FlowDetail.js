@@ -64,12 +64,12 @@ export const FlowDetail = () => {
         const newProgress = {
             userId: localYogaUserObj.id,
             flowId: flowId,
-            difficulty: flow?.difficulty,
+            difficulty: flow.difficulty,
             dateCompleted: flowDate
         }
 
         addProgress(newProgress)
-        .then(navigate("/dashboard"))
+        .then(navigate("/profile"))
     }
 
     const handleDate = (e) => {
