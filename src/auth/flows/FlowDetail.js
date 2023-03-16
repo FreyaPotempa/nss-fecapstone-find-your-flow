@@ -23,8 +23,9 @@ min-height: 100px;
 
 export const FlowDetail = () => {
     const navigate = useNavigate()
-    const { getFlowById, poses, getPoses, flow, deleteFlow, addFave, getFavesByUser, favesByUser, deleteFave } = useContext(FlowContext)
+    const { addProgress, getFlowById, poses, getPoses, flow, deleteFlow, addFave, getFavesByUser, favesByUser, deleteFave } = useContext(FlowContext)
     const { flowId } = useParams()
+    const [ flowDate, setFlowDate ] = useState("")
     const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"))
 
     useEffect(() => {
@@ -59,6 +60,24 @@ export const FlowDetail = () => {
         .then(navigate("/flow/saved"))
     }
 
+    const saveProgress = (e) => {
+        const newProgress = {
+            userId: localYogaUserObj.id,
+            flowId: flowId,
+            difficulty: flow?.difficulty,
+            dateCompleted: flowDate
+        }
+
+        addProgress(newProgress)
+        .then(navigate("/dashboard"))
+    }
+
+    const handleDate = (e) => {
+        const dateCompleted = e.target.value
+        setFlowDate(dateCompleted)
+
+    }
+
     return <>
     <section key={`flow__${flow.id}`}>
         <h2>{flow?.title}</h2>
@@ -77,8 +96,13 @@ export const FlowDetail = () => {
             })
         }
             </FlowList>
+            <div>
+                <label>I completed this flow on:</label>
+                <input type="date" onChange={handleDate} />
+                <button type="button" onClick={saveProgress}>Mark Completed</button>
+                </div>
             {
-                favesByUser.find((fave) => fave.flowId === flow.id) ? <button type="button"onClick={deleteFaveFlow}>Delete from Favorites</button> :
+                favesByUser.find((fave) => fave.flowId === flow.id) ? <button type="button"onClick={deleteFaveFlow}>Remove from Favorites</button> :
             
             <button type="button" onClick={favoriteFlow}>Save this flow</button>
             }

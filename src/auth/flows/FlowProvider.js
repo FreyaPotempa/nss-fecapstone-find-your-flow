@@ -105,10 +105,21 @@ export const FlowProvider = (props) => {
     //.then(getFaves)
   }
 
+  const addProgress = (newProg) => {
+    return fetch(`http://localhost:8088/userProgress`,{
+      method: 'POST', 
+      headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newProg)})
+    .then(res => res.json())
+  }
+
   return (
     <FlowContext.Provider
       value={{
         addFave,
+        addProgress,
         poses,
         getPoses,
         flow,
