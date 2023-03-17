@@ -28,13 +28,13 @@ const YogaList = styled.div`
 `;
 
 export const PoseList = () => {
-  const { poses, getPoses, searchTerms } = useContext(FlowContext)
+  const { poses, getPoses, searchTerms, setSearchTerms } = useContext(FlowContext)
   const [filteredPoses, setFilteredPoses ] = useState([])
   const [cat, setCategory] = useState("0");
   const [showPeak, setShowPeak] = useState(false)
 
   useEffect(() => {
-    getPoses();
+    getPoses().then(setSearchTerms(""));
   }, []);
 
   useEffect(() => {
@@ -89,26 +89,26 @@ export const PoseList = () => {
     <>
         <select id="category" 
         onChange={handleCategory}>
-            <option key="" value="0"
-            selected={
+            <option key="cat0" value="0"
+            defaultValue={
               showPeak || cat === "0"
               }>Sort by Category</option>
-            <option value="standing">Standing</option>
-            <option value="seated">Seated</option>
-            <option value="supine">Supine</option>
-            <option value="prone">Prone</option>
-            <option value="inversion">Inversion</option>
+            <option key="cat1"value="standing">Standing</option>
+            <option key="cat2" value="seated">Seated</option>
+            <option key="cat3" value="supine">Supine</option>
+            <option key="cat4" value="prone">Prone</option>
+            <option key="cat5" value="inversion">Inversion</option>
         </select>
         Show Only Peak Poses?
         <input type="checkbox" 
-        checked={showPeak}
+        defaultChecked={showPeak}
         onClick={handlePeak} 
         />
     <Container>
       <Title>Yoga Poses</Title>
       <YogaList>
         {filteredPoses.map((pose) => (
-            <PoseStatic key={pose.id} pose={pose} />
+            <PoseStatic key={`poseStatic--${pose.id}`} pose={pose} />
             ))}
       </YogaList>
     </Container>

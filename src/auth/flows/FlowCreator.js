@@ -4,12 +4,13 @@ import { FlowContext } from "./FlowProvider";
 import styled from "styled-components";
 import { Column } from "./Column";
 import { useNavigate, useParams } from "react-router-dom";
+import { PoseSearch } from "./PoseSearch";
 
 // define an absolutely empty "initialData" object here
 
 
 export const FlowCreator = () => {
-  const { poses, getPoses, addFlow, getFlowById, flow, searchTerms, updateFlow } = useContext(FlowContext);
+  const { poses, getPoses, addFlow, getFlowById, flow, searchTerms, setSearchTerms, updateFlow } = useContext(FlowContext);
   const [ filteredPoses, setFilteredPoses ] = useState([])
   const [yogaDndState, setYogaDndState] = useState({
     yogaPoseData: {},
@@ -38,7 +39,7 @@ export const FlowCreator = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    getPoses();
+    getPoses().then(setSearchTerms(""));
     if (flowId) {
       getFlowById(flowId)
       //when navigating for edit
@@ -60,14 +61,17 @@ export const FlowCreator = () => {
       poses.forEach((pose) => {
         yogaPoseList[String(pose.id)] = pose;
       });
-      filteredPoses.forEach((filteredPose) => {
-        poseIdArray.push(String(filteredPose.id));
+      poses.forEach((pose) => {
+        poseIdArray.push(String(pose.id));
       })
       newYogaDndState.columns["column-1"].poseColumnIdList = poseIdArray;
       newYogaDndState.yogaPoseData = yogaPoseList;
       
+      //when searching, updating find only if in column 1
+
       // when editing, add previously saved info to state
       if (flowId && flow.title) {
+        //remove the poseIds that exist in column-2 from column-1 so no weird draggy
         newYogaDndState.columns["column-2"].title = flow.title
         newYogaDndState.columns["column-2"].poseColumnIdList = flow.poseColumnIdList
         newYogaDndState.columns["column-2"].difficulty = flow.difficulty
@@ -81,18 +85,22 @@ export const FlowCreator = () => {
       setYogaDndState(newYogaDndState);
       // set newData into state with setYogaDndState(newData)
     }
-  }, [poses, filteredPoses, flow, flowId]);
+  }, [poses, flow, flowId]);
 
   //from PoseSearch, originally component rendered in Home, filteredPoses used now as the main pose data in above useEffect
   //need to filter the array of ids in column 1 with the search terms instead of the whole pose array
   useEffect(() => {
-    if (searchTerms !== "") {
+      let searchedPoseIdArray = []
       const subset = poses.filter((pose) => pose.english_name.toLowerCase().includes(searchTerms))
-      setFilteredPoses(subset)
-    } else {
-      setFilteredPoses(poses)
-    }
-  }, [searchTerms, yogaDndState])
+      subset.forEach((searchedPose) => {
+        searchedPoseIdArray.push(String(searchedPose.id))
+      })
+     
+      const searchedYogaDndState = {...yogaDndState}
+      searchedYogaDndState.columns["column-1"].poseColumnIdList = searchedPoseIdArray
+      setYogaDndState(searchedYogaDndState)
+     
+  }, [searchTerms])
 
   const Container = styled.div`
     display: flex;
@@ -218,6 +226,7 @@ export const FlowCreator = () => {
   return (
     <section>
       <h2>Poses</h2>
+      <PoseSearch />
       <DragDropContext
         //onDragStart={onDragStart}
         onDragEnd={onDragEnd}

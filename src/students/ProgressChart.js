@@ -20,7 +20,6 @@ export const ProgressChart = ({ data }) => {
                 <YAxis dataKey="difficulty" domain={[0, 5]} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="dateCompleted" fill="#8884d8" />
                 <Bar dataKey="difficulty" fill="#82ca9d" />
             </BarChart>
         </ResponsiveContainer>

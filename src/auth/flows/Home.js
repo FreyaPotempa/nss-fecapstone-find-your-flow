@@ -3,25 +3,21 @@ import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
 
 export const Home = () => {
-  const { flows, getFlows, users, getUsers, poses, getPoses, searchTerms } =
+  const { flows, getFlows, users, getUsers, poses, getPoses, searchTerms, setSearchTerms } =
     useContext(FlowContext);
   const [filteredFlows, setFilteredFlows] = useState([])
   const [instructorFlows, setInstructorFlows] = useState(0)
   const [difficultyFlows, setDifficultyFlows ] = useState(0)
 
   useEffect(() => {
-    getFlows().then(getUsers()).then(getPoses());
+    getFlows().then(getUsers()).then(getPoses()).then(setSearchTerms(""));
   }, []);
 
   useEffect(() => {
-    if (searchTerms !== "") {
       const subset = flows.filter((flow) =>
         flow.title.toLowerCase().includes(searchTerms)
       );
       setFilteredFlows(subset);
-    } else {
-      setFilteredFlows(flows);
-    }
   }, [poses, searchTerms]);
 
   useEffect(() => {
