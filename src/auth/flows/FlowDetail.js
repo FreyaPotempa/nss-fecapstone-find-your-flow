@@ -32,6 +32,7 @@ export const FlowDetail = () => {
         getFlowById(flowId)
         getPoses()
         getFavesByUser(localYogaUserObj.id)
+
     },[])
 
     const handleDelete = () => {
