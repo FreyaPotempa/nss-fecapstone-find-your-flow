@@ -1,18 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { FlowContext } from "./FlowProvider";
+import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Stack, Text } from '@chakra-ui/react'
 
-const Container = styled.div`
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  padding: 8px;
-  margin-bottom: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 175px;
-`;
 
 export const PoseStatic = ({ pose }) => {
   const { flows, getFlows } = useContext(FlowContext)
@@ -35,23 +25,26 @@ export const PoseStatic = ({ pose }) => {
   },[flows])
 
 
-  return <Container>
-      <img src={pose.img_url} height={100} width={100} />
-      <br />
-      <h3>{pose.sanskrit_name}</h3>
-      <br />
-      {pose.english_name}
-      <br />
-      <i>{pose.category}</i>
-      <br />
-      <div>
+  return <Card maxW='md' align="center">
+  <CardBody>
+    <Image
+      src={pose.img_url} height={100} width={100} />
+      <Stack mt='6' spacing='3'>
+
+      <Heading size='md'>{pose.sanskrit_name}</Heading>
+      <Text py='2'>
+      {pose.english_name}<br />
+        {pose.category}
+      </Text>
         { poseWithFlows.length > 0 ? 
         <div>Flows featuring this pose:<br /> {
           poseWithFlows.map((flowByPose) => { 
-           return <ul><li key={`flowByPose__${flowByPose.id}`}><Link to={`/flow/detail/${flowByPose.id}`}>{flowByPose?.title}</Link></li></ul>}) }</div>
-        : ""
-        }</div>
-    </Container>
+            return <ul><li key={`flowByPose__${flowByPose.id}`}><Link to={`/flow/detail/${flowByPose.id}`}>{flowByPose?.title}</Link></li></ul>}) }</div>
+            : ""
+          }
+          </Stack>
+          </CardBody>
+          </Card>
   
 };
 

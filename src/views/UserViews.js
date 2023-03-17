@@ -13,18 +13,16 @@ export const UserViews = () => {
     <FlowProvider>
       <Routes>
         <Route path="/" element={<Outlet />}>
-          <Route path="/" element={
-          <>
-          <Home />
-          <FlowSearch />
-          </>
-          } />
-          <Route path="/poses" element={
-          <>
-          <PoseSearch />
-          <PoseList />
-          </>
-          } />
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/poses"
+            element={
+              <>
+                <PoseSearch />
+                <PoseList />
+              </>
+            }
+          />
           <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
           <Route path="/flow/saved" element={<SavedFlows />} />
           <Route path="/profile" element={<UserProfile />} />

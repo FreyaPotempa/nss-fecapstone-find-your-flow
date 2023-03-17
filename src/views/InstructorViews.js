@@ -18,14 +18,10 @@ export const InstructorViews = () => {
                 <Route path="/" element={
                 <>
                 <Home />
-                <FlowSearch />
                 </>
                 } />
                 <Route path="/flow/create" element={
-                <>
-                {/* Having trouble with this come back to it <PoseSearch /> */}
                 <FlowCreator />
-                </>
                 } />
                 <Route path="/flow/saved" element={
                 <>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { FlowContext } from "./FlowProvider"
 import styled from "styled-components"
+import { Button, Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 
 const Container = styled.div`
   border: 1px solid lightgrey;
@@ -81,22 +82,24 @@ export const FlowDetail = () => {
 
     return <>
     <section key={`flow__${flow.id}`}>
-        <h2>{flow?.title}</h2>
-        <div>Difficulty: {flow?.difficulty}/5</div>
-        <FlowList>
+        <Heading as='h3' size='lg' color="#56203D">{flow?.title}</Heading>
+        <Text fontWeight='bold'>Difficulty: {flow?.difficulty}/5</Text>
+            <SimpleGrid border="1px dashed lightgrey" m="12px" p="8px" width="90%" spacing={4} templateColumns='repeat(auto-fill, minmax(150px, 1fr))'>
         {
             flow?.poseColumnIdList?.map((poseId) => {
                 const poseObj = poses.find((pose) => pose.id === parseInt(poseId))
-                return <Container>
-                <div key={`pose__${poseObj?.id}`}>
-                <img src={poseObj?.img_url} height={100} width={100} /><br />
-                <h3>{poseObj?.sanskrit_name}</h3>
-                <div>{poseObj?.english_name}</div>
-                </div>
-                </Container>
+                return <Card maxW='175px' align="center" key={`pose__${poseObj?.id}`}>
+                    <CardBody>
+                <Image src={poseObj?.img_url} height={100} width={100} />
+                <Stack mt='6' spacing='3'>
+                <Heading size='md'>{poseObj?.sanskrit_name}</Heading>
+                <Text py='2'>{poseObj?.english_name}</Text>
+                </Stack>
+                </CardBody>
+                </Card>
             })
         }
-            </FlowList>
+        </SimpleGrid>
            { localYogaUserObj.instructor ? null :
            <>
                 <label>I completed this flow on:</label>
@@ -107,7 +110,7 @@ export const FlowDetail = () => {
             {
                 favesByUser.find((fave) => fave.flowId === flow.id) ? <button type="button"onClick={deleteFaveFlow}>Remove from Favorites</button> :
             
-            <button type="button" onClick={favoriteFlow}>Save this flow</button>
+            <Button mt="12px" ml="20px" type="button" onClick={favoriteFlow}>Save this flow</Button>
             }
             {
         flow?.userId === localYogaUserObj.id ?
