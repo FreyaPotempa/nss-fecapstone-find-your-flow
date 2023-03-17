@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { FlowContext } from "./FlowProvider";
 import { PoseStatic } from "./PoseStatic";
 import styled from "styled-components";
+import { SimpleGrid } from "@chakra-ui/react";
 
 const Container = styled.div`
   margin: 8px;
@@ -15,16 +16,6 @@ const Container = styled.div`
 
 const Title = styled.div`
   padding: 8px;
-`;
-
-const YogaList = styled.div`
-  padding: 8px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  transition: background-color 0.2s ease;
-  background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
-  min-height: 100px;
 `;
 
 export const PoseList = () => {
@@ -106,11 +97,11 @@ export const PoseList = () => {
         />
     <Container>
       <Title>Yoga Poses</Title>
-      <YogaList>
+      <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
         {filteredPoses.map((pose) => (
-            <PoseStatic key={`poseStatic--${pose.id}`} pose={pose} />
-            ))}
-      </YogaList>
+          <PoseStatic key={`poseStatic--${pose.id}`} pose={pose} />
+          ))}
+          </SimpleGrid>
     </Container>
             </>
   );

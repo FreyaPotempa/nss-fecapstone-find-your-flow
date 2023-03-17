@@ -225,7 +225,6 @@ export const FlowCreator = () => {
 
   return (
     <section>
-      <h2>Poses</h2>
       <PoseSearch />
       <DragDropContext
         //onDragStart={onDragStart}

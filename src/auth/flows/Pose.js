@@ -1,35 +1,38 @@
+import { Box, Card, CardBody, Divider, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-const Container = styled.div`
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  padding: 8px;
-  margin-bottom: 8px;
-  background-color: ${(props) => (props.isDragging ? "lightgreen" : "white")};
-  display: flex;
-  flex-direction: column;
-  width: 120px;
-`;
+// const Container = styled.div`
+//     background-color: ${(props) => (props.isDragging ? "#53DD6C" : "white")}`;
+//Honestly this looks and works a lot better with just the styled-components so might change this back for draggy droppys
 
 
 export const Pose = ({pose, index}) => {
     return (
+        <Card width='175px' align="center" border="1px solid lightgrey" m="8px">
         <Draggable draggableId={String(pose.id)} index={index}>
             {(provided, snapshot) => (
-                <Container
+                <CardBody
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
                 isDragging={snapshot.isDragging}
+                bgColor="white"
                 >
-                    <img src={pose.img_url} height={100} width={100} /><br />
-                    <h3>{pose.sanskrit_name}</h3><br />
-                    {pose.english_name}<br />
+                    <Image src={pose.img_url} height={100} width={100} />
+                    <Stack mt='6' spacing='3'>
+                    <Heading size='md'>{pose.sanskrit_name}
+                    </Heading>
+                    <Text py='2'>
+                        {pose.english_name}
+                        </Text>
+                    <Divider />
                     <i>{pose.category}</i>
-                </Container>
+                    </Stack>
+                </CardBody>
             )}
         </Draggable>
+        </Card>
     )
 }
 
