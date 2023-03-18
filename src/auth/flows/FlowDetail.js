@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { FlowContext } from "./FlowProvider"
 import styled from "styled-components"
-import { Button, Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { Button, Card, CardBody, Heading, Image, Input, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 
 const Container = styled.div`
   border: 1px solid lightgrey;
@@ -103,20 +103,20 @@ export const FlowDetail = () => {
            { localYogaUserObj.instructor ? null :
            <>
                 <label>I completed this flow on:</label>
-                <input type="date" onChange={handleDate} />
-                <button type="button" onClick={saveProgress}>Mark Completed</button>
+                <Input type="date" m="6px" width={200} onChange={handleDate} />
+                <Button m="6px" type="button" onClick={saveProgress}>Mark Completed</Button>
                 </>
             }
             {
-                favesByUser.find((fave) => fave.flowId === flow.id) ? <button type="button"onClick={deleteFaveFlow}>Remove from Favorites</button> :
+                favesByUser.find((fave) => fave.flowId === flow.id) ? <Button m="6px" type="button"onClick={deleteFaveFlow}>Remove from Favorites</Button> :
             
             <Button mt="12px" ml="20px" type="button" onClick={favoriteFlow}>Save this flow</Button>
             }
             {
         flow?.userId === localYogaUserObj.id ?
         <> 
-        <button type="button" onClick={handleEdit}>edit</button>
-        <button type="button" onClick={handleDelete}>delete</button>
+        <Button m="6px" type="button" onClick={handleEdit}>edit</Button>
+        <Button m="6px" type="button" onClick={handleDelete}>delete</Button>
         </>
         :
          null

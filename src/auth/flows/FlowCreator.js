@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Column } from "./Column";
 import { useNavigate, useParams } from "react-router-dom";
 import { PoseSearch } from "./PoseSearch";
+import { Button, Flex, HStack, Input, Select } from "@chakra-ui/react";
 
 // define an absolutely empty "initialData" object here
 
@@ -250,16 +251,18 @@ export const FlowCreator = () => {
           })}
         </Container>
       </DragDropContext>
+      <Flex flexDirection='row'>
       <form>
         <fieldset>
-            <div>
                 <label htmlFor="title">Flow Title</label>
-                <input
+                <Input width={350}
                 type="text"
                 id="title"
                 name="title"
                 value={flowCreate.title}
-                defaultValue={flow?.title}
+                defaultValue={
+                  flowId ? flow.title : ""
+                }
                 required
                 autoFocus
                 onChange={
@@ -268,12 +271,10 @@ export const FlowCreator = () => {
                     copy.title = e.target.value
                     update(copy)
                   }
-                }></input>
-            </div>
+                }></Input>
         </fieldset>
         <fieldset>
-          <label htmlFor="difficulty">Difficulty</label>
-          <select
+          <Select width={200}
           required autoFocus
           type="type"
           value={flowCreate.difficulty}
@@ -285,19 +286,20 @@ export const FlowCreator = () => {
             }
           }
           >
-            <option value="0">Choose</option>
+            <option value="0">Choose Difficulty</option>
             <option value="1">Novice</option>
             <option value="2">Beginner</option>
             <option value="3">Intermediate</option>
             <option value="4">Proficient</option>
             <option value="5">Advanced</option>
-          </select>
+          </Select>
         </fieldset>
-      <button type="button"
+      <Button type="button"
       onClick={
         //if flowId is updating make a post request otherwise save
-        handleClickSaveFlow}>Save Flow</button>
+        handleClickSaveFlow}>Save Flow</Button>
       </form>
+      </Flex>
     </section>
   );
       

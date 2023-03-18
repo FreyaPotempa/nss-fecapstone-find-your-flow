@@ -1,3 +1,4 @@
+import { Heading, Text } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { FlowContext } from '../auth/flows/FlowProvider';
 import { ProgressChart } from './ProgressChart';
@@ -25,8 +26,8 @@ export const UserProfile = () => {
   },[userProgress])
 
   return <>
-    <h2>{user.name}</h2>
-    <div>You've completed {userProgress.length} flows</div>
+    <Heading as='h3' size='lg' m='6'>{user.name}</Heading>
+    <Text m='4' p='4'>You've completed {userProgress.length} flows</Text>
     <ProgressChart data={userProgress} />
   </>
 

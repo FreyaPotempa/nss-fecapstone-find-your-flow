@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { FlowContext } from "./FlowProvider";
 import { PoseStatic } from "./PoseStatic";
 import styled from "styled-components";
-import { SimpleGrid } from "@chakra-ui/react";
+import { Checkbox, Flex, Select, SimpleGrid } from "@chakra-ui/react";
+import { PoseSearch } from "./PoseSearch"
 
 const Container = styled.div`
   margin: 8px;
@@ -55,7 +56,7 @@ export const PoseList = () => {
   useEffect(() => {
     if (showPeak) {
     const filteredPeak = poses.filter(peakPose => peakPose.peak)
-    setCategory("")
+    setCategory("0")
     setFilteredPoses(filteredPeak)
     }
     else {
@@ -78,9 +79,11 @@ export const PoseList = () => {
 
   return (
     <>
-        <select id="category" 
+      <Flex>
+        <PoseSearch />
+        <Select p="4px" width={250} id="category" 
         onChange={handleCategory}>
-            <option key="cat0" value="0"
+            <option key="cat0"
             defaultValue={
               showPeak || cat === "0"
               }>Sort by Category</option>
@@ -89,12 +92,12 @@ export const PoseList = () => {
             <option key="cat3" value="supine">Supine</option>
             <option key="cat4" value="prone">Prone</option>
             <option key="cat5" value="inversion">Inversion</option>
-        </select>
-        Show Only Peak Poses?
-        <input type="checkbox" 
-        defaultChecked={showPeak}
-        onClick={handlePeak} 
-        />
+        </Select>
+        <Checkbox 
+        isChecked={showPeak}
+        onChange={handlePeak} 
+        >Show Only Peak Poses?</Checkbox>
+        </Flex>
     <Container>
       <Title>Yoga Poses</Title>
       <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
