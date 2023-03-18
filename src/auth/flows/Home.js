@@ -81,7 +81,9 @@ export const Home = () => {
           {filteredFlows.map((flow) => {
             return <Card boxShadow='xl' p='6' rounded='md' bg='white' maxW='lg' height={300} align="center" key={`Flows-${flow.id}`}>
               <CardHeader>
-                <Heading size='md'color="#56203D"><Link to={`/flow/detail/${flow.id}`}>
+                <Heading size='md'color="#56203D"
+                _hover={{ color: "#53DD6C"}}
+                ><Link to={`/flow/detail/${flow.id}`}>
                   {flow.title}
                 </Link></Heading>
               </CardHeader>

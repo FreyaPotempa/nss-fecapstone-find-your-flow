@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 export const ProgressChart = ({ data }) => {
 
     return (
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="75%" height={200}>
             <BarChart
             data={data}
             margin={{
@@ -20,7 +20,7 @@ export const ProgressChart = ({ data }) => {
                 <YAxis dataKey="difficulty" domain={[0, 5]} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="difficulty" fill="#82ca9d" />
+                <Bar dataKey="difficulty" fill="#56638a" />
             </BarChart>
         </ResponsiveContainer>
     )

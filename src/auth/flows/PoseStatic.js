@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
-import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Stack, Text } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Stack, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, Box } from '@chakra-ui/react'
 
 
 export const PoseStatic = ({ pose }) => {
@@ -37,9 +37,24 @@ export const PoseStatic = ({ pose }) => {
         {pose.category}
       </Text>
         { poseWithFlows.length > 0 ? 
-        <div>Flows featuring this pose:<br /> {
-          poseWithFlows.map((flowByPose) => { 
-            return <ul><li key={`flowByPose__${flowByPose.id}`}><Link to={`/flow/detail/${flowByPose.id}`}>{flowByPose?.title}</Link></li></ul>}) }</div>
+        <Accordion allowToggle>
+          <AccordionItem>
+          <h3>
+            <AccordionButton>
+              <Box as="span" flex='1' textAlign='left'>
+              Flows with this pose
+              </Box>
+            </AccordionButton>
+          </h3>
+          <AccordionPanel pb={4}>
+          {
+            poseWithFlows.map((flowByPose) => { 
+              return <ul><li key={`flowByPose__${flowByPose.id}`}><Link to={`/flow/detail/${flowByPose.id}`}>{flowByPose?.title}</Link></li></ul>}) }
+              </AccordionPanel>
+              </AccordionItem>
+          </Accordion>
+            
+            
             : ""
           }
           </Stack>
