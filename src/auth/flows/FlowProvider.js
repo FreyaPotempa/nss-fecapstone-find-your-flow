@@ -11,6 +11,7 @@ export const FlowProvider = (props) => {
   const [searchTerms, setSearchTerms] = useState("");
   const [ favesByUser , setFavesByUser ] = useState([])
   const [ userProgress, setUserProgress ] = useState([])
+  const [ flowsWithFaves, setFlowsWithFaves ] = useState([])
 
   const getPoses = () => {
     return fetch(`http://localhost:8088/poses`)
@@ -89,6 +90,12 @@ export const FlowProvider = (props) => {
       .then(getFlows);
   };
 
+  const getFlowsWithFaves = () => {
+    return fetch(`http://localhost:8088/flows?_embed=userFaves`)
+      .then(res => res.json())
+      .then(setFlowsWithFaves)
+  }
+
   const addFave = (faveObj) => {
     return fetch(`http://localhost:8088/userFaves`, {
       method: "POST",
@@ -150,6 +157,8 @@ export const FlowProvider = (props) => {
         updateFlow,
         user,
         users,
+        flowsWithFaves,
+        getFlowsWithFaves
       }}
     >
       {props.children}
