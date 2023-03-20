@@ -1,31 +1,56 @@
-import { Heading, Text } from "@chakra-ui/react"
-import { useContext, useEffect, useState } from "react"
-import { FlowContext } from "../auth/flows/FlowProvider"
-
+import { Heading, Text } from "@chakra-ui/react";
+import { useContext, useEffect, useState } from "react";
+import { FlowContext } from "../auth/flows/FlowProvider";
 
 export const InstructorProfile = () => {
-    const { getFlows, flows,getUserById, user } = useContext(FlowContext)
-    const [filteredFlows, setFilteredFlows] = useState([])
+  const {
+    getFlows,
+    getFlowsWithFaves,
+    flowsWithFaves,
+    flows,
+    getUserById,
+    user,
+  } = useContext(FlowContext);
+  const [filteredFlows, setFilteredFlows] = useState([]);
+  const [totalFavedFlows, setTotalFaves] = useState([]);
 
-    const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"))
+  const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
 
-    useEffect(() => {
-        getUserById(localYogaUserObj.id)
-        .then(getFlows())
-    },[])
- 
-    useEffect(() => {
-        const myFlows = flows.filter((flow) => flow.userId === localYogaUserObj.id)
-        setFilteredFlows(myFlows)
+  useEffect(() => {
+    getUserById(localYogaUserObj.id).then(getFlows()).then(getFlowsWithFaves());
+  }, []);
 
-    },[flows])
+  useEffect(() => {
+    const myFlows = flows.filter((flow) => flow.userId === localYogaUserObj.id);
+    setFilteredFlows(myFlows);
+  }, [flows]);
 
+  useEffect(() => {
+    const myFavedFlows = flowsWithFaves.filter(
+      (flowFave) => flowFave.userId === localYogaUserObj.id
+    );
 
+    let flowFaveArray = [];
+    myFavedFlows.map((popularFlow) => {
+      flowFaveArray.push(popularFlow.userFaves.length);
+    });
 
-    return <>
-    <Heading as='h3' size='lg' m='6'>{user.name}</Heading>
-    <Text m='4' p='4'>You've created {filteredFlows.length} flow(s)</Text>
-    <Text>Your flows have been favorited X times</Text>
-    <Text>GRAPH OF YOUR POPULAR FLOWS</Text>
+    const TotalFaveSum = flowFaveArray.reduce((x, y) => {
+      return x + y;
+    }, 0);
+    setTotalFaves(TotalFaveSum);
+  }, [flowsWithFaves]);
+
+  return (
+    <>
+      <Heading as="h3" size="lg" m="6">
+        {user.name}
+      </Heading>
+      <Text m="4" p="4">
+        You've created {filteredFlows.length} flow(s)
+      </Text>
+      <Text>Your flows have been favorited {totalFavedFlows} times</Text>
+      <Text>GRAPH OF YOUR POPULAR FLOWS</Text>
     </>
-}
+  );
+};
