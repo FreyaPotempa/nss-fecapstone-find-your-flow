@@ -2,22 +2,28 @@ import { Box, Card, CardBody, Divider, Heading, Image, Stack, Text } from "@chak
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-// const Container = styled.div`
-//     background-color: ${(props) => (props.isDragging ? "#53DD6C" : "white")}`;
+const ContainerPose = styled.div`
+    width: 175px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    border-radius: 5%;
+    margin: 8px;
+    align-items: center;
+    background-color: ${(props) => (props.isDragging ? "#53DD6C" : "white")}`;
 //Honestly this looks and works a lot better with just the styled-components so might change this back for draggy droppys
 
+{/* <Card width='175px' align="center" border="1px solid lightgrey" m="8px"> */}
 
 export const Pose = ({pose, index}) => {
     return (
-        <Card width='175px' align="center" border="1px solid lightgrey" m="8px">
         <Draggable draggableId={String(pose.id)} index={index}>
             {(provided, snapshot) => (
-                <CardBody
+                <ContainerPose
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
                 isDragging={snapshot.isDragging}
-                bgColor="white"
                 >
                     <Image src={pose.img_url} height={100} width={100} />
                     <Stack mt='6' spacing='3'>
@@ -29,10 +35,9 @@ export const Pose = ({pose, index}) => {
                     <Divider />
                     <i>{pose.category}</i>
                     </Stack>
-                </CardBody>
+        </ContainerPose>
             )}
         </Draggable>
-        </Card>
     )
 }
 

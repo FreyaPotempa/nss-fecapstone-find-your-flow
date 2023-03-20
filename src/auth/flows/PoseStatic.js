@@ -62,5 +62,3 @@ export const PoseStatic = ({ pose }) => {
           </Card>
   
 };
-
-//For Wes: nutritionist user could create menus that other users can save?

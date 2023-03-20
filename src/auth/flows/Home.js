@@ -97,7 +97,7 @@ export const Home = () => {
                 <Text pt='2' fontSize='sm'>
                 Created by: 
                 </Text>
-                <Text fontweight="bold">{flow?.user?.name}</Text>
+                <Text fontSize='sm' fontWeight="bold">{flow?.user?.name}</Text>
                 </Box>
                 </Stack>
               </CardBody>

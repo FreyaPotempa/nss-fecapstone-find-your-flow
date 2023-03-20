@@ -1,11 +1,23 @@
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  SimpleGrid,
+  Stack,
+  StackDivider,
+  Text,
+} from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
 
 export const CreatedFlows = () => {
-  const { flows, getFlows } = useContext(FlowContext);
+  const { flows, getFlows, deleteFlow } = useContext(FlowContext);
   const [filteredFlows, setFilteredFlows] = useState([]);
-
+  const navigate = useNavigate();
   const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
 
   useEffect(() => {
@@ -14,22 +26,90 @@ export const CreatedFlows = () => {
 
   useEffect(() => {
     const myFlows = flows.filter((flow) => flow.userId === localYogaUserObj.id);
-    setFilteredFlows(myFlows)
+    setFilteredFlows(myFlows);
   }, [flows]);
 
+  const handleEdit = (flowId) => {
+    navigate(`/flow/edit/${flowId}`);
+  };
+
+  const handleDelete = (flowId) => {
+    deleteFlow(flowId).then(() => {
+      navigate("/flow/saved");
+    });
+  };
   return (
-      <section>
-        <h2>My Created Flows</h2>
-        {filteredFlows.map((flow) => (
-          <div key={`flowList-${flow.id}`}>
-              <Link to={`/flow/detail/${flow.id}`}>
-                {flow.title}
-                <br />
-              </Link>
-                Difficulty: {flow.difficulty}/5
-                <br />
-            </div>
-        ))}
-      </section>
+    <>
+      <Heading as="h3" size="lg">
+        My Created Flows
+      </Heading>
+      <SimpleGrid
+      minChildWidth='190px'
+        spacing={4}
+        width="95%"
+        
+      >
+        {filteredFlows.map((flow) => {
+          return (
+            <Card
+              boxShadow="xl"
+              p="2"
+              rounded="md"
+              bg="white"
+              width={200}
+              m="4"
+              height={200}
+              align="center"
+              key={`flowList-${flow.id}`}
+            >
+              <CardHeader>
+                <Heading
+                  size="md"
+                  color="#56203D"
+                  _hover={{ color: "#53DD6C" }}
+                >
+                  <Link to={`/flow/detail/${flow.id}`}>
+                    {flow.title}
+                    <br />
+                  </Link>
+                </Heading>
+              </CardHeader>
+              <CardBody>
+                <Stack divider={<StackDivider />} spacing="2">
+                  <Box>
+                    <Text pt="2" fontSize="sm">
+                      Difficulty: {flow.difficulty}/5
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Button
+                      size="xs"
+                      m="0.5"
+                      type="button"
+                      onClick={() => {
+                        handleEdit(flow.id);
+                      }}
+                    >
+                      {" "}
+                      Edit
+                    </Button>
+                    <Button
+                      size="xs"
+                      m="0.5"
+                      type="button"
+                      onClick={() => {
+                        handleDelete(flow.id);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Box>
+                </Stack>
+              </CardBody>
+            </Card>
+          );
+        })}
+      </SimpleGrid>
+    </>
   );
 };
