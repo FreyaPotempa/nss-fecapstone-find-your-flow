@@ -21,8 +21,13 @@ export const SavedFlows = () => {
 
     return (
         <>
-        <Heading as='h3' size='lg'>My Favorite Flows</Heading>
-        <SimpleGrid spacing={4} templateColumns='repeat (auto-fill, minmax (200px, 1fr))'>
+        <Heading as='h3' size='lg' ml='4'>My Favorite Flows</Heading>
+        <SimpleGrid 
+        ml='6'
+        minChildWidth='190px'
+        spacingX='25px'
+        width="80%"      
+        >
         {favesByUser.map((fave) => {
             return <Card boxShadow='xl' p='2' rounded='md' bg='white' width={200} m='4' maxHeight={250} align='center' key={`flowfave-${fave?.id}`}>
                 <CardHeader>

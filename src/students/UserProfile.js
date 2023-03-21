@@ -6,7 +6,6 @@ import { ProgressChart } from './ProgressChart';
 
 export const UserProfile = () => {
   const { getUserProgress, userProgress, getUserById, user } = useContext(FlowContext)
-  const [sortedComplete, setSortedComplete ] = useState([])
   const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"))
 
   useEffect(() => {
@@ -16,12 +15,11 @@ export const UserProfile = () => {
 
   useEffect(() => {
     if (userProgress) {
-      const progressSortedbyDate = userProgress.sort((a, b) => {
+      userProgress.sort((a, b) => {
         let da = new Date(a.dateCompleted)
         let db = new Date(b.dateCompleted)
         return da - db
       })
-      setSortedComplete(progressSortedbyDate)
     }
   },[userProgress])
 
