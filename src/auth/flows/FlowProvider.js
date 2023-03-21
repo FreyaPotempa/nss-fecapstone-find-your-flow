@@ -125,7 +125,7 @@ export const FlowProvider = (props) => {
   }
 
   const getUserProgress = (userId) => {
-    return fetch(`http://localhost:8088/userProgress?_userId=${userId}`)
+    return fetch(`http://localhost:8088/userProgress?userId=${userId}`)
       .then(res => res.json())
       .then(setUserProgress)
   }

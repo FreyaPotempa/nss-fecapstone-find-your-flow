@@ -4,6 +4,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Divider,
   Heading,
   SimpleGrid,
   Stack,
@@ -40,13 +41,14 @@ export const CreatedFlows = () => {
   };
   return (
     <>
-      <Heading as="h3" size="lg">
+      <Heading as="h3" size="lg" ml='4'>
         My Created Flows
       </Heading>
       <SimpleGrid
+      ml='6'
       minChildWidth='190px'
         spacing={4}
-        width="95%"
+        width="80%"
         
       >
         {filteredFlows.map((flow) => {
@@ -110,6 +112,7 @@ export const CreatedFlows = () => {
           );
         })}
       </SimpleGrid>
+      <Divider m='2' p='2' /> 
     </>
   );
 };
