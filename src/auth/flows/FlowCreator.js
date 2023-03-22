@@ -92,7 +92,7 @@ export const FlowCreator = () => {
   //need to filter the array of ids in column 1 with the search terms instead of the whole pose array
   useEffect(() => {
       let searchedPoseIdArray = []
-      const subset = poses.filter((pose) => pose.english_name.toLowerCase().includes(searchTerms))
+      const subset = poses.filter((pose) => pose.english_name.toLowerCase().includes(searchTerms) || pose.sanskrit_name.toLowerCase().includes(searchTerms))
       subset.forEach((searchedPose) => {
         searchedPoseIdArray.push(String(searchedPose.id))
       })

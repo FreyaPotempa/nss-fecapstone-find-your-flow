@@ -10,6 +10,7 @@ import {
   Stack,
   StackDivider,
   Text,
+  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
@@ -21,7 +22,8 @@ export const CreatedFlows = () => {
   const [filteredFlows, setFilteredFlows] = useState([]);
   const navigate = useNavigate();
   const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
-  const bgColor = useColorModeValue('gray.50', 'whiteAlpha.400')
+  const bgColor = useColorModeValue("gray.50", "whiteAlpha.200");
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     getFlows();
@@ -43,16 +45,10 @@ export const CreatedFlows = () => {
   };
   return (
     <>
-      <Heading as="h3" size="lg" ml='4'>
+      <Heading as="h3" size="lg" ml="4">
         My Created Flows
       </Heading>
-      <SimpleGrid
-      ml='6'
-      minChildWidth='190px'
-        spacing={4}
-        width="80%"
-        
-      >
+      <SimpleGrid ml="6" minChildWidth="190px" spacing={4} width="80%">
         {filteredFlows.map((flow) => {
           return (
             <Card
@@ -69,7 +65,8 @@ export const CreatedFlows = () => {
               <CardHeader>
                 <Heading
                   size="md"
-                  color="#56203D"
+                  as="u"
+                  color={colorMode === "light" ? "#56203D" : "#56638A"}
                   _hover={{ color: "#53DD6C" }}
                 >
                   <Link to={`/flow/detail/${flow.id}`}>
@@ -114,7 +111,7 @@ export const CreatedFlows = () => {
           );
         })}
       </SimpleGrid>
-      <Divider m='2' p='2' /> 
+      <Divider m="2" p="2" />
     </>
   );
 };
