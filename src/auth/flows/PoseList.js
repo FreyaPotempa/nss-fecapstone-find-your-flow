@@ -32,7 +32,7 @@ export const PoseList = () => {
   useEffect(() => {
     if (poses.length > 0) {
         if (searchTerms !== "") {
-            const subset = poses.filter((pose) => pose.english_name.toLowerCase().includes(searchTerms))
+            const subset = poses.filter((pose) => pose.english_name.toLowerCase().includes(searchTerms) || pose.sanskrit_name.toLowerCase().includes(searchTerms))
             setFilteredPoses(subset)
             setShowPeak(false)
             setCategory("0")

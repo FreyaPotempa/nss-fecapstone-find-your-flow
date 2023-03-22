@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, CardHeader, Center, Divider, Flex, Heading, Select, SimpleGrid, Stack, StackDivider, Text } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardHeader, Center, Container, Divider, Flex, Heading, Select, SimpleGrid, Stack, StackDivider, Text, useColorModeValue } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
@@ -11,6 +11,8 @@ export const Home = () => {
   const [filteredFlows, setFilteredFlows] = useState([])
   const [instructorFlows, setInstructorFlows] = useState(0)
   const [difficultyFlows, setDifficultyFlows ] = useState(0)
+  const bgColor = useColorModeValue('gray.50', 'whiteAlpha.400')
+  
 
   useEffect(() => {
     getFlows().then(getUsers()).then(getPoses()).then(setSearchTerms(""));
@@ -50,14 +52,17 @@ export const Home = () => {
 
   return (
     <>
+    <Container>
     <Center>
       <HomeLogo />
     </Center>
     <Center>
       <Heading as='h4' size='md'>Create and share yoga pose flows</Heading>
       </Center>
+    </Container>
       <Divider />
-      <Heading p='10px' as='h3' size='lg'>All Created Flows</Heading>
+      <Container maxW='4xl'>
+      <Heading p='10px' as='h3' size='lg'>All Flows</Heading>
       <Flex p='10px'>
       <FlowSearch />
         <Select p="4px" id="difficulty" width={250} onChange={handleDifficultyChange}>
@@ -79,7 +84,7 @@ export const Home = () => {
         </Flex>
         <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
           {filteredFlows.map((flow) => {
-            return <Card boxShadow='xl' p='6' rounded='md' bg='white' maxW='lg' height={300} align="center" key={`Flows-${flow.id}`}>
+            return <Card boxShadow='xl' p='6' rounded='md' bg={bgColor} maxW='lg' height={300} align="center" key={`Flows-${flow.id}`}>
               <CardHeader>
                 <Heading size='md'color="#56203D"
                 _hover={{ color: "#53DD6C"}}
@@ -104,6 +109,7 @@ export const Home = () => {
               </Card>
           })}
         </SimpleGrid>
+        </Container>
     </>
   );
 };

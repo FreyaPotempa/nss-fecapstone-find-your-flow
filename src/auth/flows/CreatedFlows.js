@@ -10,6 +10,7 @@ import {
   Stack,
   StackDivider,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ export const CreatedFlows = () => {
   const [filteredFlows, setFilteredFlows] = useState([]);
   const navigate = useNavigate();
   const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
+  const bgColor = useColorModeValue('gray.50', 'whiteAlpha.400')
 
   useEffect(() => {
     getFlows();
@@ -54,10 +56,10 @@ export const CreatedFlows = () => {
         {filteredFlows.map((flow) => {
           return (
             <Card
+              bg={bgColor}
               boxShadow="xl"
               p="2"
               rounded="md"
-              bg="white"
               width={200}
               m="4"
               height={200}
