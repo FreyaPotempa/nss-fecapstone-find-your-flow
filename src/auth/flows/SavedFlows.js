@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, CardHeader, Heading, SimpleGrid, Stack, StackDivider, Text } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Heading, SimpleGrid, Stack, StackDivider, Text, useColorModeValue } from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
 import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider"
@@ -6,6 +6,7 @@ import { FlowContext } from "./FlowProvider"
 
 export const SavedFlows = () => {
     const { getFavesByUser, favesByUser, getUsers, users } = useContext(FlowContext)
+    const bgColor = useColorModeValue('gray.50', 'whiteAlpha.400')
     
     const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
 
@@ -29,7 +30,7 @@ export const SavedFlows = () => {
         width="80%"      
         >
         {favesByUser.map((fave) => {
-            return <Card boxShadow='xl' p='2' rounded='md' bg='white' width={200} m='4' maxHeight={250} align='center' key={`flowfave-${fave?.id}`}>
+            return <Card boxShadow='xl' p='2' rounded='md' bg={bgColor} width={200} m='4' maxHeight={250} align='center' key={`flowfave-${fave?.id}`}>
                 <CardHeader>
                 <Heading size='md' color='#56203D' _hover={{ color: "#53DD6C" }}>
                 <Link to={`/flow/detail/${fave?.flow?.id}`}>

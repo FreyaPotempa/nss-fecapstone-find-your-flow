@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
-import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Stack, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, Box } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Stack, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, Box, useColorMode } from '@chakra-ui/react'
 
 
 export const PoseStatic = ({ pose }) => {
   const { flows, getFlows } = useContext(FlowContext)
+  const { colorMode } = useColorMode()
   const [poseWithFlows, setPosewithFlows ] = useState([])
 
   useEffect(() => {
@@ -28,7 +29,8 @@ export const PoseStatic = ({ pose }) => {
   return <Card maxW='md' align="center">
   <CardBody>
     <Image
-      src={pose.img_url} height={100} width={100} />
+      src={pose.img_url}
+      sx={colorMode === "light" ? "" : { filter: "invert(1)" }} height={100} width={100} />
       <Stack mt='6' spacing='3'>
 
       <Heading size='md'>{pose.sanskrit_name}</Heading>

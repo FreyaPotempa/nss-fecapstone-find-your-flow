@@ -12,6 +12,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  LightMode,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -72,6 +73,7 @@ export const Register = (props) => {
   };
 
   return (
+    <LightMode>
     <Flex
       flexDirection="column"
       width="100wh"
@@ -229,5 +231,6 @@ export const Register = (props) => {
         </Link>
       </Center>
     </Flex>
+    </LightMode>
   );
 };
