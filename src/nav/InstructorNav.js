@@ -30,9 +30,9 @@ export const InstructorNav = () => {
     >
       <HStack>
         <Tooltip label="Home">
-        <Link className="navbar_link" to="/">
-          <ReactLogo />
-        </Link>
+          <Link className="navbar_link" to="/">
+            <ReactLogo />
+          </Link>
         </Tooltip>
       </HStack>
       <HStack as="nav" spacing="5">
@@ -140,8 +140,9 @@ export const InstructorNav = () => {
             className="navbar_link"
             to=""
             onClick={() => {
-              localStorage.removeItem("yoga_user")
-              toggleColorMode("light")
+              localStorage.removeItem("yoga_user");
+              //make this an "onlogout function that checks for color mode"
+              toggleColorMode("light");
               navigate("/", { replace: true });
             }}
           >

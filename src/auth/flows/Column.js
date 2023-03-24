@@ -2,6 +2,7 @@ import { Pose } from "./Pose";
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { Heading, useColorMode } from "@chakra-ui/react";
+import { TitleEdit } from "./TitleEdit";
 
 const Container = styled.div`
   margin: 8px;
@@ -25,7 +26,7 @@ const YogaList = styled.div`
   min-height: 300px;
 `;
 
-export const Column = ({ column, yogaChoices }) => {
+export const Column = ({ column, columnId, saveNewTitle, yogaChoices }) => {
   const { colorMode } = useColorMode();
   return (
     <Container>
@@ -34,7 +35,11 @@ export const Column = ({ column, yogaChoices }) => {
         size="xl"
         color={colorMode === "light" ? "#56203D" : "#56638A"}
       >
-        {column.title}
+        {column.id === "column-2" ? (
+          <TitleEdit columnTitle={column.title} saveNewTitle={saveNewTitle} />
+        ) : (
+          column.title
+        )}
       </Heading>
       <Droppable droppableId={column.id} direction="horizontal">
         {(provided, snapshot) => (

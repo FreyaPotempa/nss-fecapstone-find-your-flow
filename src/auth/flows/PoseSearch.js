@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { FlowContext } from "./FlowProvider";
 
 export const PoseSearch = () => {
-  const { setSearchTerms } = useContext(FlowContext);
+  const { searchTerms, setSearchTerms } = useContext(FlowContext);
 
   return (
     <Input

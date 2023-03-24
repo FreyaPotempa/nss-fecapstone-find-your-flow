@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
-  Heading,
   Image,
   Stack,
   Text,
@@ -16,6 +14,10 @@ import {
   AccordionPanel,
   Box,
   useColorMode,
+  UnorderedList,
+  ListItem,
+  Heading,
+  ListIcon,
 } from "@chakra-ui/react";
 
 export const PoseStatic = ({ pose }) => {
@@ -66,17 +68,21 @@ export const PoseStatic = ({ pose }) => {
                   </AccordionButton>
                 </h3>
                 <AccordionPanel pb={4}>
-                  {poseWithFlows.map((flowByPose) => {
-                    return (
-                      <ul>
-                        <li key={`flowByPose__${flowByPose.id}`}>
+                  <UnorderedList>
+                    {poseWithFlows.map((flowByPose) => {
+                      return (
+                        <AccordionItem
+                          fontSize="sm"
+                          key={`flowByPose__${flowByPose.id}`}
+                          as="u"
+                        >
                           <Link to={`/flow/detail/${flowByPose.id}`}>
                             {flowByPose?.title}
                           </Link>
-                        </li>
-                      </ul>
-                    );
-                  })}
+                        </AccordionItem>
+                      );
+                    })}
+                  </UnorderedList>
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>
