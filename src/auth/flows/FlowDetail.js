@@ -9,6 +9,14 @@ import {
   Heading,
   Image,
   Input,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
   SimpleGrid,
   Stack,
   Text,
@@ -171,9 +179,43 @@ export const FlowDetail = () => {
             <Button m="6px" type="button" onClick={handleEdit}>
               edit
             </Button>
-            <Button m="6px" type="button" onClick={handleDelete}>
+            <Popover>
+              {({ isOpen, onClose }) => (
+                <>
+                  <PopoverTrigger>
+                    <Button m="6px" type="button">
+                      Delete
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Confirmation!</PopoverHeader>
+                    <PopoverBody>
+                      Are you sure you want to delete this flow?
+                    </PopoverBody>
+                    <PopoverFooter display="flex" justifyContent="flex-end">
+                      <Button
+                        type="button"
+                        size="sm"
+                        colorScheme="red"
+                        onClick={() => {
+                          handleDelete(flow.id);
+                        }}
+                      >
+                        Confirm
+                      </Button>
+                      <Button type="button" size="sm" onClick={onClose}>
+                        Cancel
+                      </Button>
+                    </PopoverFooter>
+                  </PopoverContent>
+                </>
+              )}
+            </Popover>
+            {/* <Button m="6px" type="button" onClick={handleDelete}>
               delete
-            </Button>
+            </Button> */}
           </>
         ) : null}
       </Container>

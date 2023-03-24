@@ -6,6 +6,14 @@ import {
   CardHeader,
   Divider,
   Heading,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
   SimpleGrid,
   Stack,
   StackDivider,
@@ -94,16 +102,43 @@ export const CreatedFlows = () => {
                       {" "}
                       Edit
                     </Button>
-                    <Button
-                      size="xs"
-                      m="0.5"
-                      type="button"
-                      onClick={() => {
-                        handleDelete(flow.id);
-                      }}
-                    >
-                      Delete
-                    </Button>
+                    <Popover>
+                      {({ isOpen, onClose }) => (
+                        <>
+                          <PopoverTrigger>
+                            <Button size="xs" m="0.5" type="button">
+                              Delete
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverHeader>Confirmation!</PopoverHeader>
+                            <PopoverBody>
+                              Are you sure you want to delete this flow?
+                            </PopoverBody>
+                            <PopoverFooter
+                              display="flex"
+                              justifyContent="flex-end"
+                            >
+                              <Button
+                                type="button"
+                                size="sm"
+                                colorScheme="red"
+                                onClick={() => {
+                                  handleDelete(flow.id);
+                                }}
+                              >
+                                Confirm
+                              </Button>
+                              <Button type="button" size="sm" onClick={onClose}>
+                                Cancel
+                              </Button>
+                            </PopoverFooter>
+                          </PopoverContent>
+                        </>
+                      )}
+                    </Popover>
                   </Box>
                 </Stack>
               </CardBody>

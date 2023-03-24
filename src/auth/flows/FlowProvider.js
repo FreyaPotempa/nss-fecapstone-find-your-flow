@@ -4,14 +4,14 @@ export const FlowContext = createContext();
 
 export const FlowProvider = (props) => {
   const [poses, setPoses] = useState([]);
-  const [users, setUsers] = useState([])
-  const [user, setUser ] = useState({});
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
   const [flows, setFlows] = useState([]);
-  const [flow, setFlow] = useState({})
+  const [flow, setFlow] = useState({});
   const [searchTerms, setSearchTerms] = useState("");
-  const [ favesByUser , setFavesByUser ] = useState([])
-  const [ userProgress, setUserProgress ] = useState([])
-  const [ flowsWithFaves, setFlowsWithFaves ] = useState([])
+  const [favesByUser, setFavesByUser] = useState([]);
+  const [userProgress, setUserProgress] = useState([]);
+  const [flowsWithFaves, setFlowsWithFaves] = useState([]);
 
   const getPoses = () => {
     return fetch(`http://localhost:8088/poses`)
@@ -21,17 +21,17 @@ export const FlowProvider = (props) => {
 
   const getUserById = (userId) => {
     return fetch(`http://localhost:8088/users/${userId}`)
-    .then((res) => res.json())
-    .then(setUser);
+      .then((res) => res.json())
+      .then(setUser);
   };
 
   const getFavesByUser = (userId) => {
-    return fetch(`http://localhost:8088/userFaves?_expand=flow&userId=${userId}`)
-      .then(res => res.json())
-      .then(setFavesByUser)
-
-  }
-
+    return fetch(
+      `http://localhost:8088/userFaves?_expand=flow&userId=${userId}`
+    )
+      .then((res) => res.json())
+      .then(setFavesByUser);
+  };
 
   const getUsers = () => {
     return fetch(`http://localhost:8088/users`)
@@ -57,10 +57,9 @@ export const FlowProvider = (props) => {
 
   const getFlowById = (flowId) => {
     return fetch(`http://localhost:8088/flows/${flowId}?_expand=user`)
-      .then(res => res.json())
-      .then(setFlow)
-
-  }
+      .then((res) => res.json())
+      .then(setFlow);
+  };
 
   const updateFlow = (flow) => {
     return fetch(`http://localhost:8088/flows/${flow.id}`, {
@@ -69,14 +68,14 @@ export const FlowProvider = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(flow),
-    }).then(getFlows)
-  }
+    }).then(getFlows);
+  };
 
   const deleteFlow = (flowId) => {
     return fetch(`http://localhost:8088/flows/${flowId}`, {
       method: "DELETE",
-    }).then(getFlows)
-  }
+    }).then(getFlows);
+  };
 
   const addFlow = (flowObj) => {
     return fetch(`http://localhost:8088/flows`, {
@@ -92,9 +91,9 @@ export const FlowProvider = (props) => {
 
   const getFlowsWithFaves = () => {
     return fetch(`http://localhost:8088/flows?_embed=userFaves`)
-      .then(res => res.json())
-      .then(setFlowsWithFaves)
-  }
+      .then((res) => res.json())
+      .then(setFlowsWithFaves);
+  };
 
   const addFave = (faveObj) => {
     return fetch(`http://localhost:8088/userFaves`, {
@@ -103,32 +102,31 @@ export const FlowProvider = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(faveObj),
-    })
-    .then((res) => res.json())
-  }
+    }).then((res) => res.json());
+  };
 
   const deleteFave = (faveId) => {
     return fetch(`http://localhost:8088/userFaves/${faveId}`, {
       method: "DELETE",
-    })
+    });
     //.then(getFaves)
-  }
+  };
 
   const addProgress = (newProg) => {
-    return fetch(`http://localhost:8088/userProgress`,{
-      method: 'POST', 
+    return fetch(`http://localhost:8088/userProgress`, {
+      method: "POST",
       headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newProg)})
-    .then(res => res.json())
-  }
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newProg),
+    }).then((res) => res.json());
+  };
 
   const getUserProgress = (userId) => {
     return fetch(`http://localhost:8088/userProgress?userId=${userId}`)
-      .then(res => res.json())
-      .then(setUserProgress)
-  }
+      .then((res) => res.json())
+      .then(setUserProgress);
+  };
 
   return (
     <FlowContext.Provider
@@ -158,7 +156,7 @@ export const FlowProvider = (props) => {
         user,
         users,
         flowsWithFaves,
-        getFlowsWithFaves
+        getFlowsWithFaves,
       }}
     >
       {props.children}
