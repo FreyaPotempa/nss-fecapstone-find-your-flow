@@ -8,35 +8,38 @@ import { SavedFlows } from "../auth/flows/SavedFlows";
 import { PoseSearch } from "../auth/flows/PoseSearch";
 import { FlowSearch } from "../auth/flows/FlowSearch";
 import { InstructorProfile } from "../instructors/InstructorProfile";
+import { UserProvider } from "../userProvider";
 
 export const InstructorViews = () => {
   return (
     <FlowProvider>
-      <Routes>
-        <Route path="/" element={<Outlet />}>
-          <Route
-            path="/"
-            element={
-              <>
-                <Home />
-              </>
-            }
-          />
-          <Route path="/flow/create" element={<FlowCreator />} />
-          <Route
-            path="/flow/saved"
-            element={
-              <>
-                <CreatedFlows />
-                <SavedFlows />
-              </>
-            }
-          />
-          <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
-          <Route path="/flow/edit/:flowId" element={<FlowCreator />} />
-          <Route path="/profile" element={<InstructorProfile />} />
-        </Route>
-      </Routes>
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<Outlet />}>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Home />
+                </>
+              }
+            />
+            <Route path="/flow/create" element={<FlowCreator />} />
+            <Route
+              path="/flow/saved"
+              element={
+                <>
+                  <CreatedFlows />
+                  <SavedFlows />
+                </>
+              }
+            />
+            <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
+            <Route path="/flow/edit/:flowId" element={<FlowCreator />} />
+            <Route path="/profile" element={<InstructorProfile />} />
+          </Route>
+        </Routes>
+      </UserProvider>
     </FlowProvider>
   );
 };

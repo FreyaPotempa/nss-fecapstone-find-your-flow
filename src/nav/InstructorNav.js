@@ -18,6 +18,12 @@ export const InstructorNav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("#483A58", "#56638A");
 
+  const LogoutColorMode = () => {
+    if (colorMode === "dark") {
+      toggleColorMode();
+    }
+  };
+
   return (
     <Flex
       w="100%"
@@ -141,8 +147,7 @@ export const InstructorNav = () => {
             to=""
             onClick={() => {
               localStorage.removeItem("yoga_user");
-              //make this an "onlogout function that checks for color mode"
-              toggleColorMode("light");
+              LogoutColorMode();
               navigate("/", { replace: true });
             }}
           >

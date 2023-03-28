@@ -18,6 +18,7 @@ import {
   ListItem,
   Heading,
   ListIcon,
+  Divider,
 } from "@chakra-ui/react";
 
 export const PoseStatic = ({ pose }) => {
@@ -79,6 +80,7 @@ export const PoseStatic = ({ pose }) => {
                           <Link to={`/flow/detail/${flowByPose.id}`}>
                             {flowByPose?.title}
                           </Link>
+                          <Divider />
                         </AccordionItem>
                       );
                     })}

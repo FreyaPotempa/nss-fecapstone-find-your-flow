@@ -22,18 +22,12 @@ import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
 import { FlowSearch } from "./FlowSearch";
 import { ReactComponent as HomeLogo } from "../../images/FYFLogo.svg";
+import { UserContext } from "../../userProvider";
 
 export const Home = () => {
-  const {
-    flows,
-    getFlows,
-    users,
-    getUsers,
-    poses,
-    getPoses,
-    searchTerms,
-    setSearchTerms,
-  } = useContext(FlowContext);
+  const { flows, getFlows, poses, getPoses, searchTerms, setSearchTerms } =
+    useContext(FlowContext);
+  const { users, getUsers } = useContext(UserContext);
   const [filteredFlows, setFilteredFlows] = useState([]);
   const [instructorFlows, setInstructorFlows] = useState(0);
   const [difficultyFlows, setDifficultyFlows] = useState(0);

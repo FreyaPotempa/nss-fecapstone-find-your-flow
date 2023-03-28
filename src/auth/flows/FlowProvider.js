@@ -4,8 +4,6 @@ export const FlowContext = createContext();
 
 export const FlowProvider = (props) => {
   const [poses, setPoses] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
   const [flows, setFlows] = useState([]);
   const [flow, setFlow] = useState({});
   const [searchTerms, setSearchTerms] = useState("");
@@ -19,34 +17,12 @@ export const FlowProvider = (props) => {
       .then(setPoses);
   };
 
-  const getUserById = (userId) => {
-    return fetch(`http://localhost:8088/users/${userId}`)
-      .then((res) => res.json())
-      .then(setUser);
-  };
-
   const getFavesByUser = (userId) => {
     return fetch(
       `http://localhost:8088/userFaves?_expand=flow&userId=${userId}`
     )
       .then((res) => res.json())
       .then(setFavesByUser);
-  };
-
-  const getUsers = () => {
-    return fetch(`http://localhost:8088/users`)
-      .then((res) => res.json())
-      .then(setUsers);
-  };
-
-  const updateUser = (user) => {
-    return fetch(`http://localhost:8088/users/${user.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    }).then(getUsers);
   };
 
   const getFlows = () => {
@@ -143,9 +119,6 @@ export const FlowProvider = (props) => {
         deleteFave,
         deleteFlow,
         getFlowById,
-        getUsers,
-        updateUser,
-        getUserById,
         getUserProgress,
         userProgress,
         addFlow,
@@ -153,8 +126,6 @@ export const FlowProvider = (props) => {
         searchTerms,
         setSearchTerms,
         updateFlow,
-        user,
-        users,
         flowsWithFaves,
         getFlowsWithFaves,
       }}
