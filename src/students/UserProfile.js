@@ -24,8 +24,6 @@ export const UserProfile = () => {
       });
     }
   }, [userProgress]);
-
-  console.log("profile id", user.id);
   return (
     <>
       <Heading as="h3" size="lg" m="6">

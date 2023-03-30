@@ -134,6 +134,7 @@ export const Home = () => {
           </Select>
         </Flex>
         <SimpleGrid
+          width="3xl"
           spacing={4}
           templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
         >
@@ -144,8 +145,7 @@ export const Home = () => {
                 p="6"
                 rounded="md"
                 bg={bgColor}
-                maxW="lg"
-                height={300}
+                width="xxs"
                 align="center"
                 key={`Flows-${flow.id}`}
               >
@@ -171,15 +171,15 @@ export const Home = () => {
                         Created by:
                       </Text>
                       <Flex>
-                        <Text fontSize="sm" fontWeight="bold">
-                          {flow?.user?.name}
-                        </Text>
                         <Avatar
                           size="md"
                           m="1.5"
                           name={flow?.user?.name}
                           src={flow?.user?.userPhoto}
                         />
+                        <Text fontSize="sm" fontWeight="bold">
+                          {flow?.user?.name}
+                        </Text>
                       </Flex>
                     </Box>
                   </Stack>

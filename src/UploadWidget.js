@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, useToast } from "@chakra-ui/react";
+import { Avatar, Box, Button, Toast, useToast } from "@chakra-ui/react";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "./userProvider";
@@ -18,12 +18,17 @@ export const UploadWidget = ({ currentUser }) => {
         cloudName: "dndff6clf",
         uploadPreset: "khfuxtzq",
         sources: ["local", "url"],
-        // maxFileSize: 500000,
+        maxFileSize: 500000,
       },
       function (error, result) {
         if (!error && result && result.event === "success") {
-          console.log(result);
           setPhotoUrl(result.info.url);
+          // toast({
+          //   title: "Your avatar has uploaded",
+          //   description: "Please wait for loading",
+          //   duration: 5000,
+          //   isClosable: true,
+          // });
         }
       }
     );
@@ -40,11 +45,15 @@ export const UploadWidget = ({ currentUser }) => {
         isInstructor: currentUser.isInstructor,
         userPhoto: photoUrl,
       });
+      toast({
+        title: "Your avatar has been saved.",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
   const doesUserHavePhoto = () => {
-    console.log(photoUrl);
     if (photoUrl.length > 0) {
       return photoUrl;
     } else if (currentUser?.userPhoto) {
@@ -68,10 +77,7 @@ export const UploadWidget = ({ currentUser }) => {
       </Button>
       <Button
         type="button"
-        // isDisabled={
-        //   // photoUrl.length > 0 ? "" :
-        //   isDisabled
-        // }
+        isDisabled={photoUrl.length > 0 ? false : true}
         size="sm"
         p="2"
         m="1"
