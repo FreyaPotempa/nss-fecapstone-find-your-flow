@@ -1,16 +1,14 @@
-import { Button, useToast } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { Avatar, Box, Button, useToast } from "@chakra-ui/react";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
+import { useContext, useEffect, useRef, useState } from "react";
+import { UserContext } from "./userProvider";
 
-export const UploadWidget = () => {
+export const UploadWidget = ({ currentUser }) => {
+  const { updateUser } = useContext(UserContext);
+  const [photoUrl, setPhotoUrl] = useState("");
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
   const toast = useToast();
-  const [userPhoto, setUserPhoto] = useState({
-    userId: 0,
-    url: "",
-  });
-
-  const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary;
@@ -20,35 +18,66 @@ export const UploadWidget = () => {
         cloudName: "dndff6clf",
         uploadPreset: "khfuxtzq",
         sources: ["local", "url"],
+        // maxFileSize: 500000,
       },
       function (error, result) {
         if (!error && result && result.event === "success") {
-          toast({
-            title: "Image Uploaded",
-            description: "Your image has been uploaded successfully!",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-          savePhoto(result);
+          console.log(result);
+          setPhotoUrl(result.info.url);
         }
       }
     );
   }, []);
 
-  const savePhoto = (result) => {
-    const newPhotoInfo = { ...userPhoto };
-    newPhotoInfo.userId = localYogaUserObj.id;
-    newPhotoInfo.url = result.info.url;
-    console.log(newPhotoInfo);
-    setUserPhoto(newPhotoInfo);
+  const addUserPhoto = () => {
+    console.log(currentUser);
+    if (photoUrl) {
+      updateUser({
+        id: currentUser.id,
+        name: currentUser.name,
+        password: currentUser.password,
+        email: currentUser.email,
+        isInstructor: currentUser.isInstructor,
+        userPhoto: photoUrl,
+      });
+    }
   };
 
+  const doesUserHavePhoto = () => {
+    console.log(photoUrl);
+    if (photoUrl.length > 0) {
+      return photoUrl;
+    } else if (currentUser?.userPhoto) {
+      return currentUser.userPhoto;
+    } else {
+      return "https://bit.ly/broken-link";
+    }
+  };
   return (
     <>
-      {userPhoto.userId !== "0" ? <img height={250} src={userPhoto.url} /> : ""}
-      <Button colorScheme="teal" onClick={() => widgetRef.current.open()}>
+      <Avatar size="2xl" src={doesUserHavePhoto()} />
+      <Button
+        type="button"
+        colorScheme="teal"
+        size="sm"
+        p="2"
+        m="1"
+        onClick={() => widgetRef.current.open()}
+      >
         Upload Image
+      </Button>
+      <Button
+        type="button"
+        // isDisabled={
+        //   // photoUrl.length > 0 ? "" :
+        //   isDisabled
+        // }
+        size="sm"
+        p="2"
+        m="1"
+        onClick={() => addUserPhoto()}
+      >
+        Save Photo
       </Button>
     </>
   );

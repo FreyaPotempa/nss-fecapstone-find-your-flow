@@ -1,8 +1,9 @@
-import { Heading, Text } from "@chakra-ui/react";
+import { Container, Heading, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { FlowContext } from "../auth/flows/FlowProvider";
 import { UserContext } from "../userProvider";
 import { ProgressChart } from "./ProgressChart";
+import { UploadWidget } from "../UploadWidget";
 
 export const UserProfile = () => {
   const { getUserProgress, userProgress } = useContext(FlowContext);
@@ -24,11 +25,15 @@ export const UserProfile = () => {
     }
   }, [userProgress]);
 
+  console.log("profile id", user.id);
   return (
     <>
       <Heading as="h3" size="lg" m="6">
         {user.name}
       </Heading>
+      <Container>
+        <UploadWidget currentUser={user} />
+      </Container>
       <Text m="4" p="4">
         You've completed {userProgress.length} flows
       </Text>

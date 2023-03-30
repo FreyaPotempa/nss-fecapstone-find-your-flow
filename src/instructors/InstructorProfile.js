@@ -64,7 +64,7 @@ export const InstructorProfile = () => {
         {user.name}
       </Heading>
       <Container>
-        <UploadWidget />
+        <UploadWidget currentUser={user} />
       </Container>
       <Flex>
         <Box boxShadow="lg" width="sm" p="2" m="4" align="center">

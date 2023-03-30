@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -169,9 +170,17 @@ export const Home = () => {
                       <Text pt="2" fontSize="sm">
                         Created by:
                       </Text>
-                      <Text fontSize="sm" fontWeight="bold">
-                        {flow?.user?.name}
-                      </Text>
+                      <Flex>
+                        <Text fontSize="sm" fontWeight="bold">
+                          {flow?.user?.name}
+                        </Text>
+                        <Avatar
+                          size="md"
+                          m="1.5"
+                          name={flow?.user?.name}
+                          src={flow?.user?.userPhoto}
+                        />
+                      </Flex>
                     </Box>
                   </Stack>
                 </CardBody>
