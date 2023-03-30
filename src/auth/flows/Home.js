@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -22,18 +23,12 @@ import { Link } from "react-router-dom";
 import { FlowContext } from "./FlowProvider";
 import { FlowSearch } from "./FlowSearch";
 import { ReactComponent as HomeLogo } from "../../images/FYFLogo.svg";
+import { UserContext } from "../../userProvider";
 
 export const Home = () => {
-  const {
-    flows,
-    getFlows,
-    users,
-    getUsers,
-    poses,
-    getPoses,
-    searchTerms,
-    setSearchTerms,
-  } = useContext(FlowContext);
+  const { flows, getFlows, poses, getPoses, searchTerms, setSearchTerms } =
+    useContext(FlowContext);
+  const { users, getUsers } = useContext(UserContext);
   const [filteredFlows, setFilteredFlows] = useState([]);
   const [instructorFlows, setInstructorFlows] = useState(0);
   const [difficultyFlows, setDifficultyFlows] = useState(0);
@@ -139,6 +134,7 @@ export const Home = () => {
           </Select>
         </Flex>
         <SimpleGrid
+          width="3xl"
           spacing={4}
           templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
         >
@@ -149,8 +145,7 @@ export const Home = () => {
                 p="6"
                 rounded="md"
                 bg={bgColor}
-                maxW="lg"
-                height={300}
+                width="xxs"
                 align="center"
                 key={`Flows-${flow.id}`}
               >
@@ -175,9 +170,17 @@ export const Home = () => {
                       <Text pt="2" fontSize="sm">
                         Created by:
                       </Text>
-                      <Text fontSize="sm" fontWeight="bold">
-                        {flow?.user?.name}
-                      </Text>
+                      <Flex>
+                        <Avatar
+                          size="md"
+                          m="1.5"
+                          name={flow?.user?.name}
+                          src={flow?.user?.userPhoto}
+                        />
+                        <Text fontSize="sm" fontWeight="bold">
+                          {flow?.user?.name}
+                        </Text>
+                      </Flex>
                     </Box>
                   </Stack>
                 </CardBody>

@@ -7,19 +7,22 @@ import { PoseList } from "../auth/flows/PoseList";
 import { PoseSearch } from "../auth/flows/PoseSearch";
 import { SavedFlows } from "../auth/flows/SavedFlows";
 import { UserProfile } from "../students/UserProfile";
+import { UserProvider } from "../userProvider";
 
 export const UserViews = () => {
   return (
     <FlowProvider>
-      <Routes>
-        <Route path="/" element={<Outlet />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/poses" element={<PoseList />} />
-          <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
-          <Route path="/flow/saved" element={<SavedFlows />} />
-          <Route path="/profile" element={<UserProfile />} />
-        </Route>
-      </Routes>
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<Outlet />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/poses" element={<PoseList />} />
+            <Route path="/flow/detail/:flowId" element={<FlowDetail />} />
+            <Route path="/flow/saved" element={<SavedFlows />} />
+            <Route path="/profile" element={<UserProfile />} />
+          </Route>
+        </Routes>
+      </UserProvider>
     </FlowProvider>
   );
 };

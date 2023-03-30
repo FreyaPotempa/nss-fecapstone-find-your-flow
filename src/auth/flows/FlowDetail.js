@@ -22,6 +22,7 @@ import {
   Text,
   Tooltip,
   useColorMode,
+  useToast,
 } from "@chakra-ui/react";
 
 export const FlowDetail = () => {
@@ -41,6 +42,7 @@ export const FlowDetail = () => {
   const { flowId } = useParams();
   const [flowDate, setFlowDate] = useState("");
   const { colorMode } = useColorMode();
+  const toast = useToast();
   const localYogaUserObj = JSON.parse(localStorage.getItem("yoga_user"));
 
   useEffect(() => {
@@ -65,7 +67,14 @@ export const FlowDetail = () => {
       flowId: flowId,
     };
 
-    addFave(newFave).then(navigate("/flow/saved"));
+    addFave(newFave).then(
+      toast({
+        title: "Flow saved",
+        duration: 5000,
+        isClosable: true,
+      })
+    );
+    navigate("/flow/saved");
   };
 
   const deleteFaveFlow = (e) => {

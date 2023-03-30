@@ -49,7 +49,7 @@ export const Column = ({ column, columnId, saveNewTitle, yogaChoices }) => {
             isDraggingOver={snapshot.isDraggingOver}
           >
             {yogaChoices.map((pose, index) => (
-              <Pose Posekey={pose.id} pose={pose} index={index} />
+              <Pose key={pose.id} pose={pose} index={index} />
             ))}
             {provided.placeholder}
           </YogaList>
