@@ -135,7 +135,7 @@ export const Home = () => {
         </Flex>
         <SimpleGrid
           width="3xl"
-          spacing={4}
+          spacing={8}
           templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
         >
           {filteredFlows.map((flow) => {
@@ -151,6 +151,7 @@ export const Home = () => {
               >
                 <CardHeader>
                   <Heading
+                    px={0}
                     as="u"
                     size="md"
                     color={colorMode === "light" ? "#56203D" : "#56638A"}
@@ -159,18 +160,19 @@ export const Home = () => {
                     <Link to={`/flow/detail/${flow.id}`}>{flow.title}</Link>
                   </Heading>
                 </CardHeader>
-                <CardBody>
+                <CardBody padding={0}>
                   <Stack divider={<StackDivider />} spacing="4">
                     <Box>
-                      <Text pt="2" fontSize="sm">
-                        Difficulty: {flow.difficulty}/5
-                      </Text>
+                      <Flex>
+                        <Text fontSize="sm">Difficulty:</Text>
+                        <Text ml="0.5" fontSize="sm" as="b">
+                          {flow.difficulty}/5
+                        </Text>
+                      </Flex>
                     </Box>
                     <Box>
-                      <Text pt="2" fontSize="sm">
-                        Created by:
-                      </Text>
-                      <Flex>
+                      <Text fontSize="sm">Created by:</Text>
+                      <Center>
                         <Avatar
                           size="md"
                           m="1.5"
@@ -180,7 +182,7 @@ export const Home = () => {
                         <Text fontSize="sm" fontWeight="bold">
                           {flow?.user?.name}
                         </Text>
-                      </Flex>
+                      </Center>
                     </Box>
                   </Stack>
                 </CardBody>
