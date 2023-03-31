@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, Toast, useToast } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Flex,
+  Toast,
+  useToast,
+} from "@chakra-ui/react";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "./userProvider";
@@ -64,27 +72,32 @@ export const UploadWidget = ({ currentUser }) => {
   };
   return (
     <>
-      <Avatar size="2xl" src={doesUserHavePhoto()} />
-      <Button
-        type="button"
-        colorScheme="teal"
-        size="sm"
-        p="2"
-        m="1"
-        onClick={() => widgetRef.current.open()}
-      >
-        Upload Image
-      </Button>
-      <Button
-        type="button"
-        isDisabled={photoUrl.length > 0 ? false : true}
-        size="sm"
-        p="2"
-        m="1"
-        onClick={() => addUserPhoto()}
-      >
-        Save Photo
-      </Button>
+      <Box mb="4">
+        <Avatar mb="3" size="2xl" src={doesUserHavePhoto()} />
+        <Flex>
+          <Button
+            type="button"
+            colorScheme="teal"
+            size="sm"
+            p="2"
+            m="1"
+            onClick={() => widgetRef.current.open()}
+          >
+            Upload Image
+          </Button>
+          <Button
+            type="button"
+            isDisabled={photoUrl.length > 0 ? false : true}
+            size="sm"
+            colorScheme="teal"
+            p="2"
+            m="1"
+            onClick={() => addUserPhoto()}
+          >
+            Save Image
+          </Button>
+        </Flex>
+      </Box>
     </>
   );
 };
