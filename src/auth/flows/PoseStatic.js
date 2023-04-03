@@ -6,6 +6,7 @@ import {
   CardBody,
   CardFooter,
   Image,
+  ignoreFallback,
   Stack,
   Text,
   Accordion,

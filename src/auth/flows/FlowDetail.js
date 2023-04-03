@@ -8,6 +8,7 @@ import {
   Container,
   Heading,
   Image,
+  ignoreFallback,
   Input,
   Popover,
   PopoverArrow,

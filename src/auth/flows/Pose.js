@@ -3,6 +3,7 @@ import {
   Divider,
   Heading,
   Image,
+  ignoreFallback,
   Stack,
   Text,
   useColorMode,
