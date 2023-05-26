@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
 
+const url = `http://localhost:8000`;
+
 export const UserContext = createContext();
 
 export const UserProvider = (props) => {
@@ -7,19 +9,19 @@ export const UserProvider = (props) => {
   const [user, setUser] = useState([]);
 
   const getUserById = (userId) => {
-    return fetch(`http://localhost:8088/users/${userId}`)
+    return fetch(`${url}/users/${userId}`)
       .then((res) => res.json())
       .then(setUser);
   };
 
   const getUsers = () => {
-    return fetch(`http://localhost:8088/users`)
+    return fetch(`${url}/users`)
       .then((res) => res.json())
       .then(setUsers);
   };
 
   const updateUser = (user) => {
-    return fetch(`http://localhost:8088/users/${user.id}`, {
+    return fetch(`${url}/users/${user.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

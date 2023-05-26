@@ -17,36 +17,36 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as HomeLogo } from "../images/FYFLogo.svg";
 
-export const Login = () => {
-  const [email, set] = useState("");
+export const Login = ({ setToken }) => {
+  const [username, set] = useState("");
   const [password, setP] = useState("");
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isUnsuccessful, setisUnsuccessful] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    return fetch(
-      `http://localhost:8088/users?email=${email}&password=${password}`
-    )
-      .then((res) => res.json())
-      .then((foundUsers) => {
-        if (foundUsers.length === 1) {
-          const user = foundUsers[0];
-          localStorage.setItem(
-            "yoga_user",
-            JSON.stringify({
-              id: user.id,
-              instructor: user.isInstructor,
-            })
-          );
-          navigate("/");
-        } else {
-          window.alert("Invalid login");
-        }
-      });
+    return fetch(`http://localhost:8000/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    }).then((res) => {
+      if ("valid" in res && res.valid) {
+        setToken(res.token);
+        navigate("/");
+      } else {
+        setisUnsuccessful(true);
+      }
+    });
   };
 
   return (
@@ -99,11 +99,11 @@ export const Login = () => {
                       }
                     />
                     <Input
-                      type="email"
-                      value={email}
+                      type="username"
+                      value={username}
                       onChange={(evt) => set(evt.target.value)}
                       className="form-control"
-                      placeholder="Email address"
+                      placeholder="username"
                       required
                       autoFocus
                     />

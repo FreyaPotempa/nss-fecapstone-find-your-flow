@@ -9,10 +9,10 @@ import { SavedFlows } from "../auth/flows/SavedFlows";
 import { UserProfile } from "../students/UserProfile";
 import { UserProvider } from "../userProvider";
 
-export const UserViews = () => {
+export const UserViews = ({ token, setToken }) => {
   return (
-    <FlowProvider>
-      <UserProvider>
+    <FlowProvider setToken={setToken}>
+      <UserProvider setToken={setToken}>
         <Routes>
           <Route path="/" element={<Outlet />}>
             <Route path="/" element={<Home />} />

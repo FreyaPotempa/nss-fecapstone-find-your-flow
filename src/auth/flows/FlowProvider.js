@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
 
+const url = `http://localhost:8000`;
+
 export const FlowContext = createContext();
 
 export const FlowProvider = (props) => {
@@ -12,33 +14,31 @@ export const FlowProvider = (props) => {
   const [flowsWithFaves, setFlowsWithFaves] = useState([]);
 
   const getPoses = () => {
-    return fetch(`http://localhost:8088/poses`)
+    return fetch(`${url}/poses`)
       .then((res) => res.json())
       .then(setPoses);
   };
 
   const getFavesByUser = (userId) => {
-    return fetch(
-      `http://localhost:8088/userFaves?_expand=flow&userId=${userId}`
-    )
+    return fetch(`${url}/userFaves?_expand=flow&userId=${userId}`)
       .then((res) => res.json())
       .then(setFavesByUser);
   };
 
   const getFlows = () => {
-    return fetch(`http://localhost:8088/flows?_expand=user`)
+    return fetch(`${url}/flows?_expand=user`)
       .then((res) => res.json())
       .then(setFlows);
   };
 
   const getFlowById = (flowId) => {
-    return fetch(`http://localhost:8088/flows/${flowId}?_expand=user`)
+    return fetch(`${url}/flows/${flowId}?_expand=user`)
       .then((res) => res.json())
       .then(setFlow);
   };
 
   const updateFlow = (flow) => {
-    return fetch(`http://localhost:8088/flows/${flow.id}`, {
+    return fetch(`${url}/flows/${flow.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -48,13 +48,13 @@ export const FlowProvider = (props) => {
   };
 
   const deleteFlow = (flowId) => {
-    return fetch(`http://localhost:8088/flows/${flowId}`, {
+    return fetch(`${url}/flows/${flowId}`, {
       method: "DELETE",
     }).then(getFlows);
   };
 
   const addFlow = (flowObj) => {
-    return fetch(`http://localhost:8088/flows`, {
+    return fetch(`${url}/flows`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export const FlowProvider = (props) => {
   };
 
   const getFlowsWithFaves = () => {
-    return fetch(`http://localhost:8088/flows?_embed=userFaves`)
+    return fetch(`${url}/flows?_embed=userFaves`)
       .then((res) => res.json())
       .then(setFlowsWithFaves);
   };
@@ -82,14 +82,14 @@ export const FlowProvider = (props) => {
   };
 
   const deleteFave = (faveId) => {
-    return fetch(`http://localhost:8088/userFaves/${faveId}`, {
+    return fetch(`${url}/userFaves/${faveId}`, {
       method: "DELETE",
     });
     //.then(getFaves)
   };
 
   const addProgress = (newProg) => {
-    return fetch(`http://localhost:8088/userProgress`, {
+    return fetch(`${url}/userProgress`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export const FlowProvider = (props) => {
   };
 
   const getUserProgress = (userId) => {
-    return fetch(`http://localhost:8088/userProgress?userId=${userId}`)
+    return fetch(`${url}/userProgress?userId=${userId}`)
       .then((res) => res.json())
       .then(setUserProgress);
   };
